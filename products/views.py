@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from vitudo.forms import SearchForm
 from vitudo.utils import pagination
+from items.models import Item
 
 from . models import Product, Category, ProductForm, ProductDetailsForm
 
@@ -45,14 +46,6 @@ def add(request):
 
 	return render(request, 'products/products/list/new.html', context)
 
-def detail(request, product_id):
-	product = get_object_or_404(Product, id=product_id, user=request.user)
-
-	context = {
-		'product': product,
-	}
-	return render(request, 'vitudo/products/detail/detail.html', context)
-
 def items(request, product_id):
 	product = get_object_or_404(Product, id=product_id, user=request.user)
 	items = Item.objects.active().this_product(product).this_user(request.user)
@@ -68,7 +61,7 @@ def items(request, product_id):
 		'items': items,
 		'form': form,
 	}
-	return render(request, 'vitudo/products/detail/items.html', context)
+	return render(request, 'products/products/detail/items.html', context)
 
 def remove(request, product_id):
 	product = get_object_or_404(Product, id=product_id, user=request.user)
@@ -78,7 +71,7 @@ def remove(request, product_id):
 
 	return redirect(reverse('vitudo:products'))
 
-def  edit(request, product_id):
+def detail(request, product_id):
 	product = get_object_or_404(Product, id=product_id, user=request.user)
 	form = ProductForm(request.POST or None, instance=product, user=request.user)
 	details_form = ProductDetailsForm(request.POST or None, request.FILES or None, instance=product.details)
@@ -86,9 +79,7 @@ def  edit(request, product_id):
 	if request.POST:
 		if form.is_valid() and details_form.is_valid():
 			new_details = details_form.save()
-			edited_product = Product.objects.update_or_create_product(**form.cleaned_data, id=product.id, details=new_details, user=request.user, full_name=form.cleaned_data['brand'].name + " " + form.cleaned_data['model'])
-
-			return redirect(reverse('vitudo:product_detail', args=[product.id]))
+			product = Product.objects.update_or_create_product(**form.cleaned_data, id=product.id, details=new_details, user=request.user, full_name=form.cleaned_data['brand'].name + " " + form.cleaned_data['model'])
 
 	context = {
 		'product': product,
@@ -96,7 +87,37 @@ def  edit(request, product_id):
 		'details_form': details_form,
 	}
 
-	return render(request, 'vitudo/products/detail/edit.html', context)
+	return render(request, 'products/products/detail/detail.html', context)
+
+def product_operations(request, product_id):
+	product = get_object_or_404(Product, id=product_id, user=request.user)
+	items = Item.objects.active().this_product(product).this_user(request.user)
+	form = ProductBulkOperationForm(request.POST or None, items=items)
+	basket, created = Basket.objects.get_or_create(user=request.user)
+
+	if request.POST and form.is_valid():
+		items = form.cleaned_data['items']
+
+		if request.POST.get('deactivate'):
+			for item in items:
+				if item.location.is_warehouse and item.is_available:
+					item.is_active = False
+					item.is_available = False
+					item.save()
+			return redirect(reverse('vitudo:product_detail', args=[product.id]))
+
+		if request.POST.get('transfer'):
+			for item in items: transfered_item = Item.objects.transfer(item, basket)
+			return redirect(reverse('vitudo:transfer'))
+
+	context = {
+		'form': form,
+		'product': product,
+		'form': form,
+	}
+
+	return render(request, 'products/detail/bulk_operation.html', context)
+
 	
 
 # ZNAČKY

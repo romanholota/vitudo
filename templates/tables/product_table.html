@@ -21,7 +21,7 @@
         </tr>
         {% for product in products %}
         <tr>
-            <td class="list"><a href="{% url 'products:index' %}">{{ product.brand }} {{ product.model }}</a></td>
+            <td class="list"><a href="{% url 'products:detail' product.id %}">{{ product.brand }} {{ product.model }}</a></td>
             <td>{{ product.category }}</td>
             <td>{{ product.active_items_count }}</td>
             <td>
