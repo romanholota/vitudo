@@ -1,0 +1,19 @@
+{% extends 'items/detail/base.html' %}
+
+{% block content %}
+{% if item.images %}
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+    {% for image in item.images.all %}
+        <img src="{{ image.image.url }}" alt="{{ item.full_name }}" class="img-thumbnail">
+        <a href="{% url 'items:edit_gallery' item.id %}">delete</a>
+    {% endfor %}    
+    {% endif %}
+    <h3>Pridať nové obrázky</h3>
+    <form action="{% url 'items:edit_gallery' item.id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p><input type="file" name="images" multiple></p>
+        <input type="submit" value="Pridať">
+    </form>
+</main>
+{% endblock %}
+  								  								

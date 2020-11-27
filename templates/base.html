@@ -1,0 +1,91 @@
+{# HTML5 declaration #}
+<!DOCTYPE html>
+<html>
+	{% load static %}
+    {# Make modifiable head elements #}
+    <head>
+        <title>
+        	Vitudo
+        	{% if page_title %}
+        	| {{ page_title }}
+        	{% endif %}
+    		</title>
+        {% block head_favicon %}
+            <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}">
+        {% endblock head_favicon %}
+        {% block head_meta %}
+            {% block head_meta_charset %}
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            {% endblock head_meta_charset %}
+            {% block head_meta_contentlanguage %}
+                <meta http-equiv="Content-Language" value="en-US" />
+            {% endblock head_meta_contentlanguage %}
+            {% block head_meta_viewport %}
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            {% endblock head_meta_viewport %}
+        {% endblock head_meta %}
+        {% block head_css %}
+            {% block head_css_site %}
+                <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+                <link href="{% static 'css/app.css' %}" rel="stylesheet" media="screen">
+            {% endblock head_css_site %}
+            {% block head_css_section %}{% endblock head_css_section %}
+            {% block head_css_page %}{% endblock head_css_page %}
+        {% endblock head_css %}
+    </head>
+	<body>
+	    {# Navigation Menu #}
+	    <header>
+			  <nav id="mainMenu" class="navbar navbar-expand-md navbar-dark bg-primary">
+			  <a class="navbar-brand" href="#">Vitudo</a>
+			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+			    <span class="navbar-toggler-icon"></span>
+			  </button>
+
+			  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+			    <ul class="navbar-nav mr-auto">
+			      <li class="nav-item">
+			        <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
+			      </li>
+			      <li class="nav-item">
+			        <a class="nav-link" href="{% url 'items:index' %}">Items</a>
+			      </li>
+			      <li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="{% url 'products:index' %}" id="products" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Products</a>
+			        <div class="dropdown-menu" aria-labelledby="products">
+			          <a class="dropdown-item" href="{% url 'products:index' %}">Products</a>
+			          <a class="dropdown-item" href="#">Another action</a>
+			          <a class="dropdown-item" href="#">Something else here</a>
+			        </div>
+			      </li>
+			    </ul>
+			  </div>
+			</nav>
+	    </header>
+	    {# The Document Body #}
+	    <div class="container-fluid">
+	    	<div class="row">
+		    	{% block menu %}
+		    	{% endblock menu %}
+			    {% block content %}
+			        if you see this, something is wrong!
+			    {% endblock content %}
+			</div>
+	    </div>
+	    {# The Footer #}
+	    <div class="footer">
+	        <div class="container-fluid">
+	        </div>
+	    </div>
+	</body>
+    {# Set of blocks that can be used to display JavaScript files #}
+    {% block footer_javascript %}
+        {% block footer_javascript_site %}
+            <script src="{% static 'js/jquery.min.js' %}"></script>
+            <script src="{% static 'js/bootstrap.min.js' %}"></script>
+            <script src="{% static 'js/app.js' %}"></script>
+        {% endblock footer_javascript_site %}
+        {% block footer_javascript_section %}{% endblock footer_javascript_section %}
+        {% block footer_javascript_page %}{% endblock footer_javascript_page %}
+    {% endblock footer_javascript %}
+</html>

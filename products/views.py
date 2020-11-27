@@ -1,0 +1,230 @@
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from vitudo.forms import SearchForm
+from vitudo.utils import pagination
+
+from . models import Product, Category, ProductForm, ProductDetailsForm
+
+# Create your views here.
+def index(request):
+	if request.GET.get('category'):
+		category = get_object_or_404(Category, id=request.GET.get('category'), user=request.user)
+		products = Product.objects.this_user(request.user).this_category(category)
+	else:
+		products = Product.objects.this_user(request.user)
+
+	categories = Category.objects.this_user(request.user).order_by('name')
+
+	form = SearchForm(request.GET or None)
+
+	# vyhladavanie
+	if request.GET: products = products.search(request.GET.get('search'))
+
+	products = pagination(request.GET.get('pg'), products)
+
+	context = {
+		'products': products,
+		'categories': categories,
+		'form': form,
+		'page_title': 'Products',
+	}
+	return render(request, 'products/products/list/index.html', context)
+
+def add(request):
+	form = ProductForm(request.POST or None, user=request.user)
+	details_form = ProductDetailsForm(request.POST or None, request.FILES or None)
+	if request.POST:
+		if form.is_valid() and details_form.is_valid():
+			new_details = details_form.save()
+			new_product = Product.objects.update_or_create_product(**form.cleaned_data, id=None, details=new_details, user=request.user, full_name=form.cleaned_data['brand'].name + " " + form.cleaned_data['model'])
+			return redirect(reverse('vitudo:product_detail', args=[new_product.id]))
+
+	context = {
+		'form': form,
+		'details_form': details_form,
+	}
+
+	return render(request, 'products/products/list/new.html', context)
+
+def detail(request, product_id):
+	product = get_object_or_404(Product, id=product_id, user=request.user)
+
+	context = {
+		'product': product,
+	}
+	return render(request, 'vitudo/products/detail/detail.html', context)
+
+def items(request, product_id):
+	product = get_object_or_404(Product, id=product_id, user=request.user)
+	items = Item.objects.active().this_product(product).this_user(request.user)
+
+	form = SearchForm(request.GET or None)
+
+	if request.GET.get('search'): items = items.search(request.GET.get('search'))
+
+	items = pagination(request.GET.get('pg'), items)
+
+	context = {
+		'product': product,
+		'items': items,
+		'form': form,
+	}
+	return render(request, 'vitudo/products/detail/items.html', context)
+
+def remove(request, product_id):
+	product = get_object_or_404(Product, id=product_id, user=request.user)
+	item_count = Item.objects.active().this_product(product).this_user(request.user).count()
+
+	if not item_count: product.delete()
+
+	return redirect(reverse('vitudo:products'))
+
+def  edit(request, product_id):
+	product = get_object_or_404(Product, id=product_id, user=request.user)
+	form = ProductForm(request.POST or None, instance=product, user=request.user)
+	details_form = ProductDetailsForm(request.POST or None, request.FILES or None, instance=product.details)
+
+	if request.POST:
+		if form.is_valid() and details_form.is_valid():
+			new_details = details_form.save()
+			edited_product = Product.objects.update_or_create_product(**form.cleaned_data, id=product.id, details=new_details, user=request.user, full_name=form.cleaned_data['brand'].name + " " + form.cleaned_data['model'])
+
+			return redirect(reverse('vitudo:product_detail', args=[product.id]))
+
+	context = {
+		'product': product,
+		'form': form,
+		'details_form': details_form,
+	}
+
+	return render(request, 'vitudo/products/detail/edit.html', context)
+	
+
+# ZNAČKY
+
+def brands(request):
+	brands = Brand.objects.this_user(request.user).has_products(request.GET.get('hasproducts'))
+	form = SearchForm(request.GET or None)
+
+	#vyhladavanie
+	if request.GET: brands = brands.search(request.GET.get('search'))
+
+	brands = pagination(request.GET.get('pg'), brands)
+
+	context = {
+		'brands': brands,
+		'form': form,
+	}
+	return render(request, 'vitudo/brands/list/index.html', context)
+
+def brand_add(request):
+	form = BrandForm(request.POST or None)
+	if request.POST and form.is_valid():
+		new_brand = Brand.objects.create_brand(**form.cleaned_data, user=request.user)
+		return redirect(reverse('vitudo:brand_detail', args=[new_brand.id]))
+	return render(request, 'vitudo/brands/list/\new.html', {'form': form})
+
+def brand_detail(request, brand_id):
+	brand = get_object_or_404(Brand, id=brand_id, user=request.user)
+	products = Product.objects.this_brand(brand).this_user(request.user)
+	form = SearchForm(request.GET or None)
+
+	if request.GET.get('search'): products = products.search(request.GET.get('search'))
+
+	products = pagination(request.GET.get('pg'), products)
+
+	context = {
+		'brand': brand,
+		'products': products,
+		'form': form,
+	}
+
+	return render(request, 'vitudo/brands/detail/detail.html', context)
+
+def brand_edit(request, brand_id):
+	brand = get_object_or_404(Brand, id=brand_id, user=request.user)
+	form = BrandForm(request.POST or None, instance=brand)
+	if request.POST and form.is_valid():
+		form.save()
+		return redirect(reverse('vitudo:brand_detail', args=[brand.id]))
+
+	context = {
+		'form': form,
+		'brand': brand,
+	}
+
+	return render(request, 'vitudo/brands/detail/edit.html', context)
+
+def brand_remove(request, brand_id):
+	brand = get_object_or_404(Brand, id=brand_id, user=request.user)
+	product_count = Product.objects.this_brand(brand).this_user(request.user).count()
+
+	if not product_count: brand.delete()
+
+	return redirect(reverse('vitudo:brands'))
+
+
+# KATEGORIE PRODUKTOV
+
+def categories(request):
+	has_products = request.GET.get('hasproducts')
+	categories = Category.objects.this_user(request.user).has_products(has_products)
+
+	form = SearchForm(request.GET or None)
+
+	#vyhladavanie
+	if request.GET.get('search'): categories = categories.search(request.GET.get('search'))
+
+	categories = pagination(request.GET.get('pg'), categories)
+
+	context = {
+		'categories': categories,
+		'form': form,
+	}
+	return render(request, 'vitudo/categories/list/index.html', context)
+
+def category_add(request):
+	form = CategoryForm(request.POST or None)
+	if request.POST and form.is_valid():
+		new_category = Category.objects.create_category(**form.cleaned_data, user=request.user)
+		return redirect(reverse('vitudo:categories'))
+	return render(request, 'vitudo/categories/list/new.html', {'form': form})
+
+def category_detail(request, category_id):
+	category = get_object_or_404(Category, id=category_id, user=request.user)
+	products = Product.objects.this_category(category).this_user(request.user)
+	form = SearchForm(request.GET or None)
+
+	if request.GET.get('search'): products = products.search(request.GET.get('search'))
+
+	products = pagination(request.GET.get('pg'), products)
+	
+	context = {
+		'category': category,
+		'products': products,
+		'form': form,
+	}
+
+	return render(request, 'vitudo/categories/detail/detail.html', context)
+
+def category_edit(request, category_id):
+	category = get_object_or_404(Category, id=category_id, user=request.user)
+	form = CategoryForm(request.POST or None, instance=category)
+	
+	if request.POST and form.is_valid():
+		form.save()
+		return redirect(reverse('vitudo:category_detail', args=[category.id]))
+
+	context = {
+		'category': category,
+		'form': form,
+	}
+
+	return render(request, 'vitudo/categories/detail/edit.html', context)
+
+def category_remove(request, category_id):
+	category = get_object_or_404(Category, id=category_id, user=request.user)
+	product_count = Product.objects.this_category(category).this_user(request.user).count()
+
+	if not product_count: category.delete()
+
+	return redirect(reverse('vitudo:categories'))

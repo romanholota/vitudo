@@ -1,0 +1,7 @@
+.nav-item > .active {
+  font-weight: 500;
+}
+
+.nav-item > .nav-link:hover {
+  font-weight: 500;
+}

@@ -1,0 +1,64 @@
+html,body
+{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Open Sans', sans-serif !important;
+    background-color: #202020;
+}
+
+.login_screen {
+  background: url("/static/accounts/bg.jpg");
+  display: table;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: fixed;
+
+  text-align: center;
+  color: #fff;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto;
+
+  margin: auto;
+}
+
+.login_form {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.form_field {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  width: 250px;
+  padding: 0.5em 1em;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  outline: none;
+  font-family: 'Open Sans', sans-serif !important;
+  resize: none;
+  text-align: center;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size:1em;
+  border: 1px solid #4CAF50;
+}
+
+input[type=submit]:hover {
+  background-color: darkgreen;
+  border: 1px solid darkgreen;
+}
+
+input[type=submit]:focus {outline:0;}
