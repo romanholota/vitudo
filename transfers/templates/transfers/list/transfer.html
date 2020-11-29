@@ -1,0 +1,51 @@
+{% extends 'transfers/list/base.html' %}
+
+
+{% block content %}
+  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 pb-2">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2">
+      <h1 class="h2">New Transfer</h1>
+    </div>
+
+{% if items %}
+    <div class="form-group">
+    <label for="search_location">Location</label>
+    <input type="text" id="search_location" name="search_location" class="form-control" placeholder="Search location...">
+    </div>
+
+    <form action="{% url 'transfers:create_transfer' %}" method="post">
+        {% csrf_token %}
+        <div id="location_table">
+        </div>
+        <p id="error"></p>
+        {% include "forms/form_template.html" with form=form %}
+        <input id="submit_button" type="submit" value="Vykonať prevod">
+    </form>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2">
+      <h2 class="h3">Items In Transfer</h2>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped table-sm">
+            <tr>
+                <th>Item Code</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th><a href="{% url 'items:index' %}">Add More</a></th>
+            </tr>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.item_code }}</td>
+                <td class="list"><a href="{% url 'items:detail' item.id %}"><b>{{ item.product.full_name }}</b></a></td>
+                <td>{{ item.product.category }}</td>            
+                <td class="list"><a href="{% url 'transfers:transfer_item' item.id %}"><i class="fas fa-trash"></i></a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% else %}
+    <p>Žiadne položky na prevod.</p>
+        <input type="submit" value="Vložiť položky" onclick="window.location='{% url 'items:index' %}'">
+{% endif %}
+
+</main>
+{% endblock %}

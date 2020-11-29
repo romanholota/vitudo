@@ -1,12 +1,16 @@
-from django.shortcuts import render, redirect, reverse, get_or_create, get_object_or_404
+from django.shortcuts import render, redirect, reverse, get_object_or_404
 from items.models import Item
 from products.models import Product
-from orders.models import Order
+from orders.models import Order, OrderItem
 from locations.models import Location
 from vitudo.forms import SearchForm
-from vitudo.utils import pagination, get_order_no, get_item_price
+from vitudo.utils import pagination, get_order_no, get_item_price, final_price
+import datetime
+import decimal
 
 from . models import Transfer, Basket
+from . forms import TransferForm
+
 
 # Create your views here.
 def index(request):
@@ -25,7 +29,7 @@ def index(request):
 		'transfers': transfers,
 		'form': form,
 	}
-	return render(request, 'vitudo/transfers/index.html', context)
+	return render(request, 'transfers/list/index.html', context)
 
 # presunutie do kosika, nastavenie priznaku v db
 def transfer_item(request, item_id):
@@ -34,7 +38,7 @@ def transfer_item(request, item_id):
 
 	transfered_item = Item.objects.transfer(item, basket)
 
-	return redirect(reverse('vitudo:transfer'))
+	return redirect(reverse('transfers:transfer'))
 
 def transfer(request):
 	basket, created = Basket.objects.get_or_create(user=request.user)
@@ -52,7 +56,7 @@ def transfer(request):
 		'form': transfer_form,
 		'search_form': search_form,
 	}
-	return render(request, 'vitudo/transfers/transfer.html', context)
+	return render(request, 'transfers/list/transfer.html', context)
 
 # VYTVARANIE PREVODOV
 
@@ -76,22 +80,22 @@ def create_transfer(request):
 
 		# vytvorenie zvlast prevodu pre kazdy item
 		for item in basket.items.all():
-			transfer = Transfer.objects.create_transfer(item=item, product=item.product, origin=item.location, location=location, date=timezone.now(), user=request.user, item_available=False, item_transfered=False)
+			transfer = Transfer.objects.create_transfer(item=item, origin=item.location, target=location, date=datetime.datetime.now(), user=request.user, item_available=False, item_transfered=False)
 			if location.customer:
 				new_order.pin_order(transfer=transfer, item=item)
 				new_order_item = OrderItem.objects.create_order_item(item=item, order=new_order, price=get_item_price(item, start, end))
 			basket.items.remove(item)
 			basket.save()
 
-		return redirect(reverse('vitudo:transfers'))
+		return redirect(reverse('transfers:index'))
 	else:
-		return redirect(reverse('vitudo:transfer'))
+		return redirect(reverse('transfers:transfer'))
 
 def return_item(request, item_id):
 	item = get_object_or_404(Item, id=item_id, user=request.user)
 	warehouse = item.warehouse
 
-	transfer = Transfer.objects.create_transfer(item=item, product=item.product, origin=item.location, location=warehouse, date=timezone.now(), user=request.user, item_available=True, item_transfered=False)
+	transfer = Transfer.objects.create_transfer(item=item, product=item.product, origin=item.location, location=warehouse, date=datetime.datetime.now(), user=request.user, item_available=True, item_transfered=False)
 
 	if item.order: item.order.pin_order(transfer=transfer, item=item) # ak sa jedna o order, priradi prevodu order a z itemu ho vymaze
 	
@@ -103,7 +107,7 @@ def return_location(request, location_id):
 	items = Item.objects.active().at_location(location)
 
 	for item in items:
-		transfer = Transfer.objects.create_transfer(item=item, product=item.product, origin=item.location, location=item.warehouse, date=timezone.now(), user=request.user, item_available=True, item_transfered=False)
+		transfer = Transfer.objects.create_transfer(item=item, product=item.product, origin=item.location, location=item.warehouse, date=datetime.datetime.now(), user=request.user, item_available=True, item_transfered=False)
 	
 		item.order and item.order.pin_order(transfer=transfer, item=item)
 
@@ -115,8 +119,19 @@ def return_order(request, order_id):
 	items = Item.objects.active().at_order(order)
 
 	for item in items:
-		transfer = Transfer.objects.create_transfer(item=item, product=item.product, origin=item.location, location=item.warehouse, date=timezone.now(), user=request.user, item_available=True, item_transfered=False)
+		transfer = Transfer.objects.create_transfer(item=item, product=item.product, origin=item.location, location=item.warehouse, date=datetime.datetime.now(), user=request.user, item_available=True, item_transfered=False)
 	
 		order.pin_order(transfer=transfer, item=item)
 
 	return redirect(reverse('vitudo:order_detail', args=[order.id]))
+
+# AJAX VIEW
+
+def get_locations(request):
+	if request.GET.get('search'):
+		locations = Location.objects.this_user(request.user).search(request.GET.get('search'))[:5]
+	else:
+		locations = Location.objects.none()
+
+	return render(request, 'tables/json_location_table.html', {'locations': locations})
+

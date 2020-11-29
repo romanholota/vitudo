@@ -9,11 +9,9 @@
     </div>
 <form action="{% url 'items:add' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <h3>Základné informácie</h3>
     <p id="error"></p>
     {% include 'forms/form_template.html' with form=form %}
     {{ number_form.as_p }}
-    <h3>Detaily</h3>
     {% include 'forms/form_template.html' with form=details_form %}
     <p><input type="file" name="images" multiple></p>
     <button type="submit" class="btn btn-primary">Submit</button>

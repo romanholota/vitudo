@@ -3,7 +3,7 @@ from locations.models import Customer
 from django import forms
 from django.contrib.auth.models import User
 
-from . managers import OrderManager
+from . managers import OrderManager, OrderItemManager
 
 # Create your models here.
 class Order(models.Model):
@@ -37,3 +37,10 @@ class Order(models.Model):
 		item.save()
 		transfer.save()
 		return self
+
+class OrderItem(models.Model):
+	item = models.ForeignKey('items.Item', on_delete=models.CASCADE)
+	order = models.ForeignKey(Order, on_delete=models.CASCADE)
+	price = models.DecimalField(max_digits=5, decimal_places=2)
+
+	objects = OrderItemManager()

@@ -28,11 +28,11 @@ class TransferQuerySet(QuerySet):
 class TransferManager(models.Manager):
 	def create_transfer(self, **kwargs):
 		item = kwargs['item']
-		transfer = self.create(item=item, product=kwargs['product'], origin=kwargs['origin'], location=kwargs['location'], date=kwargs['date'], user=kwargs['user'])
+		transfer = self.create(item=item, origin_location=kwargs['origin'], target_location=kwargs['target'], date=kwargs['date'], user=kwargs['user'])
 		transfer.save()
 		item.is_available = kwargs['item_available']
 		item.is_transfered = kwargs['item_transfered']
-		item.location = kwargs['location']
+		item.location = kwargs['target']
 		item.save()
 		return transfer
 

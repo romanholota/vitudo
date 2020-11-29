@@ -3,6 +3,7 @@ from django.forms import ModelForm, ModelChoiceField, Select, TextInput, Textare
 from django.contrib.auth.models import User
 from products.models import Product
 from locations.models import Location
+from orders.models import Order
 from vitudo.forms import BaseModelForm
 
 from . managers import ItemManager, ItemImageManager
@@ -29,6 +30,7 @@ class Item(models.Model):
 	details = models.ForeignKey(ItemDetails, on_delete=models.SET_NULL, null=True)
 	images = models.ManyToManyField(ItemImage, blank=True)
 	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
 
 	objects = ItemManager()
 

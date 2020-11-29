@@ -26,3 +26,12 @@ def get_order_no(user):
 		width = 5
 		new_order_number = str(int(last_order.order_no) + 1)
 		return (width - len(new_order_number)) * "0" + new_order_number
+
+def final_price(items, start, end):
+	delta = end - start
+	price = 0
+	days = Decimal(delta.days + delta.seconds / 86400)
+	for item in items:
+		item_price = item.product.details.price if item.product.details.price else 0
+		price += item_price
+	return price * days
