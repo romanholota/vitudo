@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block menu %}
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light">
+      <div class="sidebar-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'products:brands' %}">All Brands</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'products:brand_detail' brand.id %}">Detail</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'products:brand_products' brand.id %}">Products</a>
+          </li>
+          {% if not brand.product_set.count %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'products:brand_remove' brand.id %}">Delete</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+{% endblock menu %}
+{% block content %}
+{% endblock content %}

@@ -3,7 +3,7 @@ from vitudo.forms import SearchForm
 from vitudo.utils import pagination
 from items.models import Item
 
-from . models import Product, Category, ProductForm, ProductDetailsForm
+from . models import Product, Category, Brand, CategoryForm, BrandForm, ProductForm, ProductDetailsForm
 
 # Create your views here.
 def index(request):
@@ -37,7 +37,7 @@ def add(request):
 		if form.is_valid() and details_form.is_valid():
 			new_details = details_form.save()
 			new_product = Product.objects.update_or_create_product(**form.cleaned_data, id=None, details=new_details, user=request.user, full_name=form.cleaned_data['brand'].name + " " + form.cleaned_data['model'])
-			return redirect(reverse('vitudo:product_detail', args=[new_product.id]))
+			return redirect(reverse('products:detail', args=[new_product.id]))
 
 	context = {
 		'form': form,
@@ -69,7 +69,7 @@ def remove(request, product_id):
 
 	if not item_count: product.delete()
 
-	return redirect(reverse('vitudo:products'))
+	return redirect(reverse('products:index'))
 
 def detail(request, product_id):
 	product = get_object_or_404(Product, id=product_id, user=request.user)
@@ -104,11 +104,11 @@ def product_operations(request, product_id):
 					item.is_active = False
 					item.is_available = False
 					item.save()
-			return redirect(reverse('vitudo:product_detail', args=[product.id]))
+			return redirect(reverse('products:detail', args=[product.id]))
 
 		if request.POST.get('transfer'):
 			for item in items: transfered_item = Item.objects.transfer(item, basket)
-			return redirect(reverse('vitudo:transfer'))
+			return redirect(reverse('transfers:transfer'))
 
 	context = {
 		'form': form,
@@ -135,16 +135,16 @@ def brands(request):
 		'brands': brands,
 		'form': form,
 	}
-	return render(request, 'vitudo/brands/list/index.html', context)
+	return render(request, 'products/brands/list/index.html', context)
 
 def brand_add(request):
 	form = BrandForm(request.POST or None)
 	if request.POST and form.is_valid():
 		new_brand = Brand.objects.create_brand(**form.cleaned_data, user=request.user)
-		return redirect(reverse('vitudo:brand_detail', args=[new_brand.id]))
-	return render(request, 'vitudo/brands/list/\new.html', {'form': form})
+		return redirect(reverse('products:brand_detail', args=[new_brand.id]))
+	return render(request, 'products/brands/list/new.html', {'form': form})
 
-def brand_detail(request, brand_id):
+def brand_products(request, brand_id):
 	brand = get_object_or_404(Brand, id=brand_id, user=request.user)
 	products = Product.objects.this_brand(brand).this_user(request.user)
 	form = SearchForm(request.GET or None)
@@ -159,21 +159,21 @@ def brand_detail(request, brand_id):
 		'form': form,
 	}
 
-	return render(request, 'vitudo/brands/detail/detail.html', context)
+	return render(request, 'products/brands/detail/products.html', context)
 
-def brand_edit(request, brand_id):
+def brand_detail(request, brand_id):
 	brand = get_object_or_404(Brand, id=brand_id, user=request.user)
 	form = BrandForm(request.POST or None, instance=brand)
 	if request.POST and form.is_valid():
 		form.save()
-		return redirect(reverse('vitudo:brand_detail', args=[brand.id]))
+		return redirect(reverse('products:brand_detail', args=[brand.id]))
 
 	context = {
 		'form': form,
 		'brand': brand,
 	}
 
-	return render(request, 'vitudo/brands/detail/edit.html', context)
+	return render(request, 'products/brands/detail/detail.html', context)
 
 def brand_remove(request, brand_id):
 	brand = get_object_or_404(Brand, id=brand_id, user=request.user)
@@ -181,7 +181,7 @@ def brand_remove(request, brand_id):
 
 	if not product_count: brand.delete()
 
-	return redirect(reverse('vitudo:brands'))
+	return redirect(reverse('products:brands'))
 
 
 # KATEGORIE PRODUKTOV

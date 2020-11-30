@@ -51,11 +51,17 @@
 			        <a class="nav-link" href="{% url 'items:index' %}">Items</a>
 			      </li>
 			      <li class="nav-item dropdown">
-			        <a class="nav-link dropdown-toggle" href="{% url 'products:index' %}" id="products" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Products</a>
+			        <a class="nav-link dropdown-toggle" href="#
+			        " id="products" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Products</a>
 			        <div class="dropdown-menu" aria-labelledby="products">
 			          <a class="dropdown-item" href="{% url 'products:index' %}">Products</a>
-			          <a class="dropdown-item" href="#">Another action</a>
-			          <a class="dropdown-item" href="#">Something else here</a>
+			          <a class="dropdown-item" href="{% url 'products:brands' %}">Brands</a>
+			        </div>
+			      </li>
+			      <li class="nav-item dropdown">
+			        <a class="nav-link dropdown-toggle" href="{% url 'transfers:index' %}" id="products" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transfers</a>
+			        <div class="dropdown-menu" aria-labelledby="products">
+			          <a class="dropdown-item" href="{% url 'transfers:transfer' %}">New Transfer</a>
 			        </div>
 			      </li>
 			    </ul>
