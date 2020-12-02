@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block menu %}
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light">
+      <div class="sidebar-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'products:brand_add' %}">Add Category</a>
+          </li>
+          <li class="nav-item">
+            {% if request.GET %}
+            <a class="nav-link" href="{% url 'products:categories' %}?hasproducts=&pg={{ request.GET.pg }}&search={{ request.GET.search }}">All categories</a>
+            {% else %}
+            <a class="nav-link" href="{% url 'products:categories' %}">All categories</a>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'products:categories' %}?hasproducts=True&pg={{ request.GET.pg }}&search={{ request.GET.search }}">With products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'products:categories' %}?hasproducts=False&pg={{ request.GET.pg }}&search={{ request.GET.search }}">Without products</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+{% endblock menu %}
+{% block content %}
+{% endblock content %}

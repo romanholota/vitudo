@@ -4,14 +4,16 @@
 {% if item.images %}
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
     {% for image in item.images.all %}
+    <div class="w-25 p-3 d-inline-block">
         <img src="{{ image.image.url }}" alt="{{ item.full_name }}" class="img-thumbnail">
         <a href="{% url 'items:edit_gallery' item.id %}">delete</a>
+    </div>
     {% endfor %}    
     {% endif %}
     <h3>Pridať nové obrázky</h3>
-    <form action="{% url 'items:edit_gallery' item.id %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'items:image_add' item.id %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <p><input type="file" name="images" multiple></p>
+        <p><input class="form-control" type="file" name="images" multiple></p>
         <input type="submit" value="Pridať">
     </form>
 </main>

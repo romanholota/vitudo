@@ -7,6 +7,19 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'products:brand_add' %}">Add Brand</a>
           </li>
+          <li class="nav-item">
+            {% if request.GET %}
+            <a class="nav-link" href="{% url 'products:brands' %}?hasproducts=&pg={{ request.GET.pg }}&search={{ request.GET.search }}">All Brands</a>
+            {% else %}
+            <a class="nav-link" href="{% url 'products:brands' %}">All Brands</a>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'products:brands' %}?hasproducts=True&pg={{ request.GET.pg }}&search={{ request.GET.search }}">With products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'products:brands' %}?hasproducts=False&pg={{ request.GET.pg }}&search={{ request.GET.search }}">Without products</a>
+          </li>
         </ul>
       </div>
     </nav>

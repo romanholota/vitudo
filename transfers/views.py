@@ -93,13 +93,12 @@ def create_transfer(request):
 
 def return_item(request, item_id):
 	item = get_object_or_404(Item, id=item_id, user=request.user)
-	warehouse = item.warehouse
 
-	transfer = Transfer.objects.create_transfer(item=item, product=item.product, origin=item.location, location=warehouse, date=datetime.datetime.now(), user=request.user, item_available=True, item_transfered=False)
+	transfer = Transfer.objects.create_transfer(item=item, product=item.product, origin=item.location, target=item.warehouse, date=datetime.datetime.now(), user=request.user, item_available=True, item_transfered=False)
 
 	if item.order: item.order.pin_order(transfer=transfer, item=item) # ak sa jedna o order, priradi prevodu order a z itemu ho vymaze
 	
-	return redirect(reverse('vitudo:items'))
+	return redirect(reverse('items:index'))
 
 # vratenie vsetkych poloziek z lokacie
 def return_location(request, location_id):

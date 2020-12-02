@@ -31,10 +31,10 @@
                 <td>{{ item.location }}</td>
                 {% if item.is_available %}
                     <td>Áno</td>
-                    <td class="list"><a href="{% url 'transfers:transfer_item' item.id %}">--></a></td>
+                    <td><a href="{% url 'transfers:transfer_item' item.id %}">--></a></td>
                 {% else %}
                     <td>Nie</td>
-                    <td class="list"><a href="{% url 'items:index' %}"><i class="fas fa-reply"></i></a></td>
+                    <td><a href="{% url 'transfers:return_item' item.id %}"><--</a></td>
                 {% endif %}              
             </tr>
             {% endfor %}

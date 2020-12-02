@@ -37,7 +37,7 @@
                 <td>{{ item.item_code }}</td>
                 <td class="list"><a href="{% url 'items:detail' item.id %}"><b>{{ item.product.full_name }}</b></a></td>
                 <td>{{ item.product.category }}</td>            
-                <td class="list"><a href="{% url 'transfers:transfer_item' item.id %}"><i class="fas fa-trash"></i></a></td>
+                <td class="list"><a href="{% url 'transfers:transfer_item' item.id %}"><--</a></td>
             </tr>
             {% endfor %}
         </table>

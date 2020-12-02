@@ -89,7 +89,7 @@ def detail(request, item_id):
 	if form.is_valid() and details_form.is_valid():
 		item = form.save()
 		item_details = details_form.save()
-		return redirect(reverse('vitudo:item_detail', args=[item.id]))
+		return redirect(reverse('items:detail', args=[item.id]))
 
 	context = {
 		'item': item,
