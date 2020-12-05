@@ -201,16 +201,30 @@ def categories(request):
 		'categories': categories,
 		'form': form,
 	}
-	return render(request, 'vitudo/categories/list/index.html', context)
+	return render(request, 'products/categories/list/index.html', context)
 
 def category_add(request):
 	form = CategoryForm(request.POST or None)
 	if request.POST and form.is_valid():
 		new_category = Category.objects.create_category(**form.cleaned_data, user=request.user)
-		return redirect(reverse('vitudo:categories'))
-	return render(request, 'vitudo/categories/list/new.html', {'form': form})
+		return redirect(reverse('products:categories'))
+	return render(request, 'products/categories/list/new.html', {'form': form})
 
 def category_detail(request, category_id):
+	category = get_object_or_404(Category, id=category_id, user=request.user)
+	form = CategoryForm(request.POST or None, instance=category)
+	
+	if request.POST and form.is_valid():
+		form.save()
+
+	context = {
+		'category': category,
+		'form': form,
+	}
+
+	return render(request, 'products/categories/detail/detail.html', context)
+
+def category_products(request, category_id):
 	category = get_object_or_404(Category, id=category_id, user=request.user)
 	products = Product.objects.this_category(category).this_user(request.user)
 	form = SearchForm(request.GET or None)
@@ -218,29 +232,14 @@ def category_detail(request, category_id):
 	if request.GET.get('search'): products = products.search(request.GET.get('search'))
 
 	products = pagination(request.GET.get('pg'), products)
-	
+
 	context = {
 		'category': category,
 		'products': products,
 		'form': form,
 	}
 
-	return render(request, 'vitudo/categories/detail/detail.html', context)
-
-def category_edit(request, category_id):
-	category = get_object_or_404(Category, id=category_id, user=request.user)
-	form = CategoryForm(request.POST or None, instance=category)
-	
-	if request.POST and form.is_valid():
-		form.save()
-		return redirect(reverse('vitudo:category_detail', args=[category.id]))
-
-	context = {
-		'category': category,
-		'form': form,
-	}
-
-	return render(request, 'vitudo/categories/detail/edit.html', context)
+	return render(request, 'products/categories/detail/products.html', context)
 
 def category_remove(request, category_id):
 	category = get_object_or_404(Category, id=category_id, user=request.user)
@@ -248,4 +247,4 @@ def category_remove(request, category_id):
 
 	if not product_count: category.delete()
 
-	return redirect(reverse('vitudo:categories'))
+	return redirect(reverse('products:categories'))

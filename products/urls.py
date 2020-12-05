@@ -14,4 +14,9 @@ urlpatterns = [
     path('brands/<int:brand_id>/', views.brand_detail, name='brand_detail'),
     path('brands/<int:brand_id>/products/', views.brand_products, name='brand_products'),
     path('brands/<int:brand_id>/remove/', views.brand_remove, name='brand_remove'),
+    path('categories/', views.categories, name='categories'),
+    path('categories/add/', views.category_add, name='category_add'),
+    path('categories/<int:category_id>/', views.category_detail, name='category_detail'),
+    path('categories/<int:category_id>/products/', views.category_products, name='category_products'),
+    path('categories/<int:category_id>/remove/', views.category_remove, name='category_remove'),    
 ]
