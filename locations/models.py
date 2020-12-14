@@ -1,6 +1,7 @@
 from django.db import models
 from django.forms import ModelForm, ModelChoiceField, Select, TextInput, Textarea, FileInput, NumberInput
 from django.contrib.auth.models import User
+from vitudo.forms import BaseModelForm
 from products.models import Product
 
 from . managers import EmployeeManager, LocationManager, AddressManager, CustomerManager
@@ -54,3 +55,84 @@ class Location(models.Model):
 
 	def __str__(self):
 		return self.name
+
+class AddressForm(BaseModelForm):
+	employee = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label="", empty_label='Vyber zamestnanca', required=False)
+
+	class Meta:
+		model = Address
+		fields = ['name', 'address', 'city', 'employee', 'comment']
+		labels = {
+			'name': '',
+			'address': '',
+			'city': '',
+			'employee': '',
+			'comment': '',
+		}
+		widgets = {
+			'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Názov'}),
+			'address': TextInput(attrs={'class': 'form-control', 'placeholder': 'Adresa'}),
+			'city': TextInput(attrs={'class': 'form-control', 'placeholder': 'Mesto'}),
+			'comment': Textarea(attrs={'class':'form-control', 'placeholder':'Poznámka'})
+		}
+
+	def __init__(self, *args, **kwargs):
+		user = kwargs.pop('user')
+		super(AddressForm, self).__init__(*args, **kwargs)
+		self.fields['employee'].queryset = Employee.objects.filter(user=user).order_by('name')
+
+
+class EmployeeForm(BaseModelForm):
+	class Meta:
+		model = Employee
+		fields = ['name', 'function', 'phone', 'email']
+		labels = {
+			"name": "Name",
+			"function": "Function",
+			"phone": "Phone",
+			"email": "E-mail",  
+		}
+		widgets = {
+			'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Meno'}),
+			'function': TextInput(attrs={'class': 'form-control', 'placeholder': 'Funkcia'}),
+			'phone': TextInput(attrs={'class': 'form-control', 'placeholder': 'Kontakt'}),
+			'email': TextInput(attrs={'class': 'form-control', 'placeholder': 'E-mail'}),
+		}
+
+class LocationForm(BaseModelForm):
+	address = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label="", empty_label='Select address', required=False)
+	customer = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label="", empty_label='Select customer', required=False)
+
+
+	class Meta:
+		model = Location
+		fields = ['name', 'address', 'customer']
+		labels = {
+			"name": "",
+			"address": "",
+			"customer": "",
+		}
+		widgets = {
+			'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Názov'}),
+		}
+
+	def __init__(self, *args, **kwargs):
+		user = kwargs.pop('user')
+		super(LocationForm, self).__init__(*args, **kwargs)
+		self.fields['address'].queryset = Address.objects.filter(user=user).order_by('name')
+		self.fields['customer'].queryset = Customer.objects.filter(user=user).order_by('name')
+
+class CustomerForm(BaseModelForm):
+	class Meta:
+		model = Customer
+		fields = ['name', 'phone', 'comment']
+		labels = {
+			"name": "",
+			"phone": "",
+			"comment": "",
+		}
+		widgets = {
+			'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Meno'}),
+			'phone': TextInput(attrs={'class': 'form-control', 'placeholder': 'Kontakt'}),
+			'comment': Textarea(attrs={'class':'form-control', 'placeholder':'Poznámka'})
+		}

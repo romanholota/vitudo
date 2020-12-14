@@ -9,7 +9,7 @@ class TransferQuerySet(QuerySet):
 		return self.filter(user=user)
 
 	def this_location(self, location):
-		return self.filter(Q(location=location) | Q(origin=location))
+		return self.filter(Q(target_location=location) | Q(origin_location=location))
 
 	def this_order(self, order):
 		return self.filter(order=order)

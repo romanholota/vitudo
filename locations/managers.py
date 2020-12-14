@@ -66,7 +66,7 @@ class LocationManager(models.Manager):
 class AddressManager(models.Manager):
 	def create_address(self, *args, **kwargs):
 		address = self.create(*args, **kwargs)
-		location_model = apps.get_model('vitudo', 'Location')
+		location_model = apps.get_model('locations', 'Location')
 		new_location = location_model.objects.create(name=address.name, address=address, user=kwargs['user'])
 		return address
 
@@ -81,7 +81,7 @@ class AddressManager(models.Manager):
 class CustomerManager(models.Manager):
 	def create_customer(self, *args, **kwargs):
 		customer = self.create(*args, **kwargs)
-		location_model = apps.get_model('vitudo', 'Location')
+		location_model = apps.get_model('locations', 'Location')
 		new_location = location_model.objects.create(name=customer.name, customer=customer, user=kwargs['user'])
 		return customer
 
@@ -96,7 +96,7 @@ class CustomerManager(models.Manager):
 class EmployeeManager(models.Manager):
 	def create_employee(self, *args, **kwargs):
 		employee = self.create(*args, **kwargs)
-		location_model = apps.get_model('vitudo', 'Location')
+		location_model = apps.get_model('locations', 'Location')
 		new_location = location_model.objects.create(name=employee.name, user=kwargs['user'])
 		return employee
 
