@@ -29,7 +29,7 @@ def add(request):
 
 	if request.POST and form.is_valid():
 		new_location = Location.objects.create_location(**form.cleaned_data, user=request.user)
-		return redirect(reverse('locations:detail', args=[new_location.id]))
+		return redirect(reverse('locations:index'))
 
 	context = {
 		'form': form
@@ -104,7 +104,7 @@ def customers(request):
 		'customers': customers,
 		'form': form,
 	}
-	return render(request, 'vitudo/customers/index.html', context)
+	return render(request, 'locations/customers/list/index.html', context)
 
 def customer_add(request):
 	form = CustomerForm(request.POST or None)
@@ -112,22 +112,13 @@ def customer_add(request):
 	if request.POST and form.is_valid():
 		# ulozenie zakaznika
 		new_customer = Customer.objects.create_customer(**form.cleaned_data, user=request.user)
-		return redirect(reverse('vitudo:customer_detail', args=[new_customer.id]))
+		return redirect(reverse('locations:customers'))
 
 	context = {
 		'form': form,
 	}
 
-	return render(request, 'vitudo/customers/new.html', context)
-
-def customer_detail(request, customer_id):
-	customer = get_object_or_404(Customer, id=customer_id, user=request.user)
-
-	context = {
-		'customer': customer,
-	}
-
-	return render(request, 'vitudo/customers/detail/detail.html', context)
+	return render(request, 'locations/customers/list/new.html', context)
 
 def customer_orders(request, customer_id):
 	customer = get_object_or_404(Customer, id=customer_id, user=request.user)
@@ -144,9 +135,9 @@ def customer_orders(request, customer_id):
 		'form': form,
 	}
 
-	return render(request, 'vitudo/customers/detail/orders.html', context)
+	return render(request, 'locations/customers/detail/orders.html', context)
 
-def customer_edit(request, customer_id):
+def customer_detail(request, customer_id):
 	customer = get_object_or_404(Customer, id=customer_id, user=request.user)
 	form = CustomerForm(request.POST or None, instance=customer)
 
@@ -157,7 +148,7 @@ def customer_edit(request, customer_id):
 		'customer': customer,
 	}
 
-	return render(request, 'vitudo/customers/detail/edit.html', context)
+	return render(request, 'locations/customers/detail/detail.html', context)
 
 def customer_remove(request, customer_id):
 	customer = get_object_or_404(Customer, id=customer_id, user=request.user)
@@ -165,7 +156,7 @@ def customer_remove(request, customer_id):
 	
 	if not order_count: customer.delete()
 
-	return redirect(reverse('vitudo:customers'))
+	return redirect(reverse('locations:customers'))
 
 # ADRESY
 
@@ -304,4 +295,4 @@ def employee_remove(request, employee_id):
 	employee = get_object_or_404(Employee, id=employee_id, user=request.user)
 	employee.delete()
 
-	return redirect(reverse('vitudo:employees'))
+	return redirect(reverse('locations:employees'))

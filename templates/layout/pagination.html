@@ -1,0 +1,17 @@
+<div class="pagination">
+    <span class="step-links mx-auto">
+        {% if queryset.has_previous %}
+            <a class="white" href="?pg=1&search={{ request.GET.search }}">&laquo; prvá</a>
+            <a class="white" href="?pg={{ queryset.previous_page_number }}&search={{ request.GET.search }}">predchádzajúca</a>
+        {% endif %}
+
+        <span class="current">
+            Strana {{ queryset.number }} z {{ queryset.paginator.num_pages }}.
+        </span>
+
+        {% if queryset.has_next %}
+            <a class="white" href="?pg={{ queryset.next_page_number }}&search={{ request.GET.search }}">ďalšia</a>
+            <a class="white" href="?pg={{ queryset.paginator.num_pages }}&search={{ request.GET.search }}">posledná &raquo;</a>
+        {% endif %}
+    </span>
+</div>

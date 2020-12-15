@@ -35,7 +35,7 @@
     </table>
 </div>
     <div class="pagination">
-        <span class="step-links">
+        <span class="step-links mx-auto">
             {% if categories.has_previous %}
                 <a class="black" href="?hasproducts={{ request.GET.hasproducts }}&pg=1&search={{ request.GET.search }}">&laquo; prvá</a>
                 <a class="black" href="?hasproducts={{ request.GET.hasproducts }}&pg={{ categories.previous_page_number }}&search={{ request.GET.search }}">predchádzajúca</a>
