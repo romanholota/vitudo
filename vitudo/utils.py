@@ -18,8 +18,8 @@ def get_item_price(item, start, end):
 	days = Decimal(delta.days + delta.seconds / 86400)
 	return item.product.details.price * days
 
-def get_order_no(user):
-	last_order = Order.objects.this_user(user).latest('order_no') if Order.objects.this_user(user).exists() else None
+def get_order_no(account):
+	last_order = Order.objects.this_account(account).latest('order_no') if Order.objects.this_account(account).exists() else None
 	if not last_order or last_order.order_no is None:
 		return '00001'
 	else:

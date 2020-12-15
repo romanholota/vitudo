@@ -8,8 +8,8 @@ class AddressQuerySet(QuerySet):
 	def search(self, search):
 		return self.filter(Q(name__icontains=search) | Q(city__icontains=search))
 
-	def this_user(self, user):
-		return self.filter(user=user)
+	def this_account(self, account):
+		return self.filter(account=account)
 
 	def this_city(self, city):
 		return self.filter(city=city)
@@ -18,8 +18,8 @@ class AddressQuerySet(QuerySet):
 		return self.filter(employee=employee)
 
 class LocationQuerySet(QuerySet):
-	def this_user(self, user):
-		return self.filter(user=user)
+	def this_account(self, account):
+		return self.filter(account=account)
 
 	def search(self, search):
 		return self.filter(name__icontains=search)
@@ -36,8 +36,8 @@ class LocationQuerySet(QuerySet):
 		return self.filter(is_warehouse=is_warehouse)
 
 class CustomerQuerySet(QuerySet):
-	def this_user(self, user):
-		return self.filter(user=user)
+	def this_account(self, account):
+		return self.filter(account=account)
 
 	def has_orders(self, has_orders):
 		if has_orders == 'True':
@@ -67,7 +67,7 @@ class AddressManager(models.Manager):
 	def create_address(self, *args, **kwargs):
 		address = self.create(*args, **kwargs)
 		location_model = apps.get_model('locations', 'Location')
-		new_location = location_model.objects.create(name=address.name, address=address, user=kwargs['user'])
+		new_location = location_model.objects.create(name=address.name, address=address, account=kwargs['account'])
 		return address
 
 	def get_query_set(self):
@@ -82,7 +82,7 @@ class CustomerManager(models.Manager):
 	def create_customer(self, *args, **kwargs):
 		customer = self.create(*args, **kwargs)
 		location_model = apps.get_model('locations', 'Location')
-		new_location = location_model.objects.create(name=customer.name, customer=customer, user=kwargs['user'])
+		new_location = location_model.objects.create(name=customer.name, customer=customer, account=kwargs['account'])
 		return customer
 
 	def get_query_set(self):
@@ -97,7 +97,7 @@ class EmployeeManager(models.Manager):
 	def create_employee(self, *args, **kwargs):
 		employee = self.create(*args, **kwargs)
 		location_model = apps.get_model('locations', 'Location')
-		new_location = location_model.objects.create(name=employee.name, user=kwargs['user'])
+		new_location = location_model.objects.create(name=employee.name, account=kwargs['account'])
 		return employee
 
 	def get_query_set(self):
@@ -109,8 +109,8 @@ class EmployeeManager(models.Manager):
 		return getattr(self.get_query_set(), attr, *args)
 
 class EmployeeQuerySet(QuerySet):
-	def this_user(self, user):
-		return self.filter(user=user)
+	def this_account(self, account):
+		return self.filter(account=account)
 
 	def has_addresses(self, has_addresses):
 		if has_addresses == 'True':

@@ -1,6 +1,6 @@
 from django.db import models
 from django.forms import ModelForm, ModelChoiceField, Select, TextInput, Textarea, FileInput, NumberInput
-from django.contrib.auth.models import User
+from accounts.models import Account
 from vitudo.forms import BaseModelForm
 from products.models import Product
 
@@ -12,7 +12,7 @@ class Employee(models.Model):
 	function = models.CharField(max_length=100, null=True, blank=True)
 	phone = models.CharField(max_length=100, null=True, blank=True)
 	email = models.EmailField(null=True, blank=True)
-	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
 
 	objects = EmployeeManager()
 
@@ -24,7 +24,7 @@ class Customer(models.Model):
 	name = models.CharField(max_length=100)
 	phone = models.CharField(max_length=100, null=True, blank=True)
 	comment = models.CharField(max_length=1000, null=True, blank=True)
-	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
 
 	objects = CustomerManager()
 
@@ -37,7 +37,7 @@ class Address(models.Model):
 	city = models.CharField(max_length=100, null=True)
 	employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True)
 	comment = models.CharField(max_length=1000, null=True, blank=True)
-	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
 
 	objects = AddressManager()
 
@@ -49,7 +49,7 @@ class Location(models.Model):
 	customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
 	address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True)
 	is_warehouse = models.BooleanField(null=True, blank=True)
-	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
 
 	objects = LocationManager()
 
@@ -77,9 +77,9 @@ class AddressForm(BaseModelForm):
 		}
 
 	def __init__(self, *args, **kwargs):
-		user = kwargs.pop('user')
+		account = kwargs.pop('account')
 		super(AddressForm, self).__init__(*args, **kwargs)
-		self.fields['employee'].queryset = Employee.objects.filter(user=user).order_by('name')
+		self.fields['employee'].queryset = Employee.objects.filter(account=account).order_by('name')
 
 
 class EmployeeForm(BaseModelForm):
@@ -117,10 +117,10 @@ class LocationForm(BaseModelForm):
 		}
 
 	def __init__(self, *args, **kwargs):
-		user = kwargs.pop('user')
+		account = kwargs.pop('account')
 		super(LocationForm, self).__init__(*args, **kwargs)
-		self.fields['address'].queryset = Address.objects.filter(user=user).order_by('name')
-		self.fields['customer'].queryset = Customer.objects.filter(user=user).order_by('name')
+		self.fields['address'].queryset = Address.objects.filter(account=account).order_by('name')
+		self.fields['customer'].queryset = Customer.objects.filter(account=account).order_by('name')
 
 class CustomerForm(BaseModelForm):
 	class Meta:

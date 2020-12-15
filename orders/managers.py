@@ -5,8 +5,8 @@ from django.apps import apps
 from datetime import datetime
 
 class OrderQuerySet(QuerySet):
-	def this_user(self, user):
-		return self.filter(user=user)
+	def this_account(self, account):
+		return self.filter(account=account)
 
 	def is_done(self, is_done):
 		return self.filter(is_done=is_done)

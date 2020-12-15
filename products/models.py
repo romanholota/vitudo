@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from accounts.models import Account
 from vitudo.forms import BaseModelForm
 from django.forms import ModelForm, ModelChoiceField, Select, TextInput, Textarea, FileInput, NumberInput
 
@@ -8,7 +8,7 @@ from . managers import *
 # Create your models here.
 class Brand(models.Model):
 	name = models.CharField(max_length=100)
-	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
 
 	objects = BrandManager()
 
@@ -17,7 +17,7 @@ class Brand(models.Model):
 
 class Category(models.Model):
 	name = models.CharField(max_length=100)
-	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True) 
+	account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True) 
 
 	objects = CategoryManager()
 
@@ -28,7 +28,7 @@ class ProductDetails(models.Model):
 	image = models.ImageField(upload_to='images/', null=True, blank=True)
 	desc = models.CharField(max_length=1000, null=True, blank=True)
 	price = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
 
 class Product(models.Model):
 	brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
@@ -37,7 +37,7 @@ class Product(models.Model):
 	full_name = models.CharField(max_length=200, null=True)
 	alternative_name = models.CharField(max_length=200, null=True, blank=True)
 	details = models.ForeignKey(ProductDetails, on_delete=models.SET_NULL, null=True)
-	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
 
 	objects = ProductManager()
 
@@ -66,10 +66,10 @@ class ProductForm(BaseModelForm):
     	}
 
 	def __init__(self, *args, **kwargs):
-		user = kwargs.pop('user')
+		account = kwargs.pop('account')
 		super(ProductForm, self).__init__(*args, **kwargs)
-		self.fields['brand'].queryset = Brand.objects.filter(user=user).order_by('name')
-		self.fields['category'].queryset = Category.objects.filter(user=user).order_by('name')
+		self.fields['brand'].queryset = Brand.objects.filter(account=account).order_by('name')
+		self.fields['category'].queryset = Category.objects.filter(account=account).order_by('name')
 
 
 class ProductDetailsForm(BaseModelForm):

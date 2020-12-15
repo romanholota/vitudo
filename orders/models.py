@@ -1,7 +1,7 @@
 from django.db import models
 from locations.models import Customer
 from django import forms
-from django.contrib.auth.models import User
+from accounts.models import Account
 
 from . managers import OrderManager, OrderItemManager
 
@@ -17,7 +17,7 @@ class Order(models.Model):
 	is_done = models.BooleanField(default=False)
 	item_count = models.IntegerField(null=True, blank=True)
 	comment = models.CharField(max_length=1000, null=True, blank=True)
-	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
 
 	objects = OrderManager()
 

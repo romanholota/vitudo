@@ -8,8 +8,8 @@ class ProductQuerySet(QuerySet):
 	def search(self, search):
 		return self.filter(Q(full_name__icontains=search) | Q(category__name__icontains=search))
 
-	def this_user(self, user):
-		return self.filter(user=user)
+	def this_account(self, account):
+		return self.filter(account=account)
 
 	def this_brand(self, brand):
 		return self.filter(brand=brand)
@@ -18,8 +18,8 @@ class ProductQuerySet(QuerySet):
 		return self.filter(category=category)
 
 class BrandQuerySet(QuerySet):
-	def this_user(self, user):
-		return self.filter(user=user)
+	def this_account(self, account):
+		return self.filter(account=account)
 
 	def has_products(self, has_products):
 		if has_products == 'True':
@@ -33,8 +33,8 @@ class BrandQuerySet(QuerySet):
 		return self.filter(name__icontains=search)
 
 class CategoryQuerySet(QuerySet):
-	def this_user(self, user):
-		return self.filter(user=user)
+	def this_account(self, account):
+		return self.filter(account=account)
 
 	def has_products(self, has_products):
 		if has_products == 'True':

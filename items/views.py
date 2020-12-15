@@ -4,15 +4,11 @@ from vitudo.utils import pagination
 
 from . models import Item, ItemImage, ItemDetails, ItemDetailsForm, ItemForm
 
-# Create your views here.
-def old_index(request):
-	return render(request, 'items/list/index.html')
-
 def index(request):
 	if request.GET.get('available'):
-		items = Item.objects.untransfered().active().is_available(request.GET.get('available')).this_user(request.user) #zoznam vsetkych poloziek co nie su v prevode
+		items = Item.objects.untransfered().active().is_available(request.GET.get('available')).this_account(request.user.details.account) #zoznam vsetkych poloziek co nie su v prevode
 	else:
-		items = Item.objects.untransfered().active().this_user(request.user)
+		items = Item.objects.untransfered().active().this_account(request.user.details.account)
 
 	form = SearchForm(request.GET or None) # vyhladavaci form
 
@@ -29,7 +25,7 @@ def index(request):
 	return render(request, 'items/list/index.html', context)
 
 def add(request):
-	form = ItemForm(request.POST or None, user=request.user)
+	form = ItemForm(request.POST or None, account=request.user.details.account)
 	number_form = NumberForm(request.POST or None)
 	details_form = ItemDetailsForm(request.POST or None, request.FILES or None)	
 
@@ -39,9 +35,9 @@ def add(request):
 		new_details = details_form.save()
 
 		for i in range(amount):
-			new_item = Item.objects.create_item(**form.cleaned_data, is_transfered=False, is_available=True, location=form.cleaned_data['warehouse'], user=request.user, details=new_details)
+			new_item = Item.objects.create_item(**form.cleaned_data, is_transfered=False, is_available=True, location=form.cleaned_data['warehouse'], account=request.user.details.account, details=new_details)
 			for file in request.FILES.getlist('images'):
-				new_image = ItemImage.objects.create_item_image(image=file, user=request.user, item=new_item)
+				new_image = ItemImage.objects.create_item_image(image=file, account=request.user.details.account, item=new_item)
 
 
 		return redirect(reverse('items:index'))
@@ -55,13 +51,13 @@ def add(request):
 	return render(request, 'items/list/new.html', context)
 		
 def transfers(request, item_id):
-	item = get_object_or_404(Item, id=item_id, user=request.user)
+	item = get_object_or_404(Item, id=item_id, account=request.user.details.account)
 	form = SearchForm(request.GET or None)
 
 	if request.GET.get('order'):
-		transfers = Transfer.objects.this_item(item).this_user(request.user).is_order(request.GET.get('order'))
+		transfers = Transfer.objects.this_item(item).this_account(request.user.details.account).is_order(request.GET.get('order'))
 	else:
-		transfers = Transfer.objects.this_item(item).this_user(request.user)
+		transfers = Transfer.objects.this_item(item).this_account(request.user.details.account)
 
 	if request.GET.get('search'): transfers = transfers.search(request.GET.get('search'))
 
@@ -75,15 +71,16 @@ def transfers(request, item_id):
 	return render(request, 'vitudo/items/detail/transfers.html', context)
 
 def remove(request, item_id):
-	item = get_object_or_404(Item, id=item_id, user=request.user)
-	item.is_active = False
-	item.save()
+	if request.user.details.is_manager:
+		item = get_object_or_404(Item, id=item_id, account=request.user.details.account)
+		item.is_active = False
+		item.save()
 
 	return redirect(reverse('vitudo:items'))
 
 def detail(request, item_id):
-	item = get_object_or_404(Item, id=item_id, user=request.user)
-	form = ItemForm(request.POST or None, instance=item, user=request.user)
+	item = get_object_or_404(Item, id=item_id, account=request.user.details.account)
+	form = ItemForm(request.POST or None, instance=item, account=request.user.details.account)
 	details_form = ItemDetailsForm(request.POST or None, instance=item.details)
 
 	if form.is_valid() and details_form.is_valid():
@@ -100,7 +97,7 @@ def detail(request, item_id):
 	return render(request, 'items/detail/detail.html', context)
 
 def edit_gallery(request, item_id):
-	item = get_object_or_404(Item, id=item_id, user=request.user)
+	item = get_object_or_404(Item, id=item_id, account=request.user.details.account)
 
 	context = {
 		'item': item,
@@ -109,14 +106,14 @@ def edit_gallery(request, item_id):
 	return render(request, 'items/detail/edit_gallery.html', context)
 
 def image_remove(request, image_id, item_id):
-	item = get_object_or_404(Item, id=item_id, user=request.user)
-	image = get_object_or_404(ItemImage, id=image_id, user=request.user)
+	item = get_object_or_404(Item, id=item_id, account=request.user.details.account)
+	image = get_object_or_404(ItemImage, id=image_id, account=request.user.details.account)
 	image.delete()
 	return redirect(reverse('vitudo:item_edit_gallery', args=[item.id]))
 
 def image_add(request, item_id):
-	item = get_object_or_404(Item, id=item_id, user=request.user)
+	item = get_object_or_404(Item, id=item_id, account=request.user.details.account)
 	if request.FILES:
 		for file in request.FILES.getlist('images'):
-			new_image = ItemImage.objects.create_item_image(image=file, user=request.user, item=item)
+			new_image = ItemImage.objects.create_item_image(image=file, account=request.user.details.account, item=item)
 	return redirect(reverse('vitudo:item_edit_gallery', args=[item.id]))

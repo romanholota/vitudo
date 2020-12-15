@@ -1,6 +1,6 @@
 from django.db import models
 from django.forms import ModelForm, ModelChoiceField, Select, TextInput, Textarea, FileInput, NumberInput
-from django.contrib.auth.models import User
+from accounts.models import Account
 from products.models import Product
 from locations.models import Location
 from orders.models import Order
@@ -11,11 +11,11 @@ from . managers import ItemManager, ItemImageManager
 # Create your models here.
 class ItemDetails(models.Model):
 	desc = models.CharField(max_length=1000, null=True, blank=True)
-	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
 
 class ItemImage(models.Model):
 	image = models.ImageField(upload_to='images/', null=True, blank=True)
-	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
 
 	objects = ItemImageManager()
 
@@ -29,7 +29,7 @@ class Item(models.Model):
 	is_active = models.BooleanField(default=True)
 	details = models.ForeignKey(ItemDetails, on_delete=models.SET_NULL, null=True)
 	images = models.ManyToManyField(ItemImage, blank=True)
-	user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+	account = models.ForeignKey(Account, on_delete=models.SET_NULL, null=True, blank=True)
 	order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
 
 	objects = ItemManager()
@@ -54,10 +54,10 @@ class ItemForm(BaseModelForm):
     	}
 
 	def __init__(self, *args, **kwargs):
-		user = kwargs.pop('user')
+		account = kwargs.pop('account')
 		super(ItemForm, self).__init__(*args, **kwargs)
-		self.fields['product'].queryset = Product.objects.filter(user=user).order_by('brand')
-		self.fields['warehouse'].queryset = Location.objects.filter(user=user, is_warehouse=True).order_by('name')
+		self.fields['product'].queryset = Product.objects.filter(account=account).order_by('brand')
+		self.fields['warehouse'].queryset = Location.objects.filter(account=account, is_warehouse=True).order_by('name')
 
 class ItemDetailsForm(ModelForm):
 	class Meta:

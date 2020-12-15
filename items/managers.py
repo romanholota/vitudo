@@ -5,8 +5,8 @@ from django.apps import apps
 from datetime import datetime
 
 class ItemQuerySet(QuerySet):
-	def this_user(self, user):
-		return self.filter(user=user)	
+	def this_account(self, account):
+		return self.filter(account=account)	
 
 	def untransfered(self):
 		#vypise vsetky dostupne polozky
