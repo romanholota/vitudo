@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block menu %}
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light">
+      <div class="sidebar-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'orders:index' %}">Back To Orders</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'orders:detail' order.id %}">Detail</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'orders:items' order.id %}">Payments</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'orders:edit' order.id %}">Edit</a>
+          </li>
+          <li class="nav-item">
+            {% if not order.is_done %}
+                <a href="{% url 'vitudo:order_done' order.id %}">Označiť ako ukončenú</a>
+            {% else %}
+                <a href="{% url 'vitudo:order_not_done' order.id %}">Označiť ako aktívnu</a>    
+            {% endif %}
+            {% if order.item_set.count is not 0 %}
+                <a href="{% url 'vitudo:return_order' order.id %}">Vrátiť všetky položky</a>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'orders:items' order.id %}">Items</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'orders:print' order.id %}">Print</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+{% endblock menu %}
+{% block content %}
+{% endblock content %}
