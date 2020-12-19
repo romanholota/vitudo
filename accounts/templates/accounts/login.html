@@ -1,5 +1,6 @@
 <!doctype html>
 {% load static %}
+{% load i18n %}
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -34,17 +35,17 @@
   <body class="text-center">
     <form class="form-signin" action="{% url 'accounts:login_view' %}" method="post">
     	{% csrf_token %}
-	  	<h1 class="h3 mb-3 font-weight-normal">Vitudo</h1>
-	  	<label for="id_username" class="sr-only">Username</label>
+	  	<h1 class="h3 mb-3 font-weight-normal">{% trans 'Vitudo' %}</h1>
+	  	<label for="id_username" class="sr-only">{% trans 'Username' %}</label>
 	  	{{ form.username }}
-	  	<label for="id_password" class="sr-only">Password</label>
+	  	<label for="id_password" class="sr-only">{% trans 'Password' %}</label>
 	  	{{ form.password }}
   		<div class="checkbox mb-3">
     	<label>
       		<input type="checkbox" value="remember-me"> Remember me
     	</label>
   		</div>
-  		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  		<button class="btn btn-lg btn-primary btn-block" type="submit">{% trans 'Sign in' %}</button>
   		<p class="mt-5 mb-3 text-muted">&copy; Vitudo</p>
 	</form>
 </body>

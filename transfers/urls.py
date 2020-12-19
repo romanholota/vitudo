@@ -11,4 +11,5 @@ urlpatterns = [
     path('new/create/', views.create_transfer, name='create_transfer'),
     path('locations/', views.get_locations, name='get_locations'),
     path('return/item/<int:item_id>/', views.return_item, name='return_item'),
+    path('return/order/<int:order_id>/', views.return_order, name='return_order'),
 ]

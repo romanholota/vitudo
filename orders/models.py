@@ -1,6 +1,7 @@
 from django.db import models
 from locations.models import Customer
 from django import forms
+from vitudo.forms import BaseModelForm
 from accounts.models import Account
 
 from . managers import OrderManager, OrderItemManager
@@ -44,3 +45,16 @@ class OrderItem(models.Model):
 	price = models.DecimalField(max_digits=5, decimal_places=2)
 
 	objects = OrderItemManager()
+
+class OrderPriceForm(BaseModelForm):
+	class Meta:
+		model = Order
+		fields = ['price', 'comment']
+		labels = {
+			'price': 'Price',
+			'comment': 'Comment',
+		}
+		widgets = {
+			'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Konečná cena'}),
+			'comment': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Poznámka'}),			
+		}

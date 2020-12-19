@@ -21,7 +21,7 @@
         </tr>
         {% for order in orders %}
         <tr>
-            <td class="list"><a href="">{{ order.order_no }}</a></td>
+            <td class="list"><a href="{% url 'orders:detail' order.id %}">{{ order.order_no }}</a></td>
             <td class="list"><a href="">{{ order.customer.name }}</a></td>
             <td>{{ order.price }} €</td>
             <td>{{ order.start|date:"d.m.Y G:i:s" }}</td>

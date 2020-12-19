@@ -11,19 +11,19 @@
             <a class="nav-link" href="{% url 'orders:detail' order.id %}">Detail</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'orders:items' order.id %}">Payments</a>
+            <a class="nav-link" href="{% url 'orders:payments' order.id %}">Payments</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'orders:edit' order.id %}">Edit</a>
           </li>
           <li class="nav-item">
             {% if not order.is_done %}
-                <a href="{% url 'vitudo:order_done' order.id %}">Označiť ako ukončenú</a>
+                <a class="nav-link" href="{% url 'orders:done' order.id %}">Označiť ako ukončenú</a>
             {% else %}
-                <a href="{% url 'vitudo:order_not_done' order.id %}">Označiť ako aktívnu</a>    
+                <a class="nav-link" href="{% url 'orders:not_done' order.id %}">Označiť ako aktívnu</a>    
             {% endif %}
             {% if order.item_set.count is not 0 %}
-                <a href="{% url 'vitudo:return_order' order.id %}">Vrátiť všetky položky</a>
+                <a class="nav-link" href="{% url 'transfers:return_order' order.id %}">Vrátiť všetky položky</a>
             {% endif %}
           </li>
           <li class="nav-item">

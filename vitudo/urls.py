@@ -16,14 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
+from django.conf.urls import url, i18n, include
 from django.conf.urls.static import static
 
 urlpatterns = [
+    #path('admin/', admin.site.urls),
+]
+urlpatterns += i18n.i18n_patterns(
     path('admin/', admin.site.urls),
-    path('items/', include('items.urls')),
-    path('products/', include('products.urls')),
-    path('accounts/', include('accounts.urls')),
-    path('transfers/', include('transfers.urls')),
-    path('locations/', include('locations.urls')),
-    path('orders/', include('orders.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('i18n/', include('django.conf.urls.i18n')),
+    url('items/', include('items.urls')),
+    url('products/', include('products.urls')),
+    url('accounts/', include('accounts.urls')),
+    url('transfers/', include('transfers.urls')),
+    url('locations/', include('locations.urls')),
+    url('orders/', include('orders.urls')),
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

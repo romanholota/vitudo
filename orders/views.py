@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from vitudo.forms import SearchForm
 from vitudo.utils import pagination
+from payments.models import Payment
+from transfers.models import Transfer
+from locations.models import Location
+from django.utils import timezone
 
-from . models import Order
+from . models import Order, OrderPriceForm
 
 # Create your views here.
 def index(request):
@@ -45,7 +49,7 @@ def detail(request, order_id):
 		'hours': int(duration.seconds / 3600),
 	}
 
-	return render(request, 'vitudo/orders/detail/detail.html', context)
+	return render(request, 'orders/detail/detail.html', context)
 
 def edit(request, order_id):
 	order = get_object_or_404(Order, id=order_id, account=request.user.details.account)
@@ -60,7 +64,7 @@ def edit(request, order_id):
 		'form': form,
 	}
 
-	return render(request, 'vitudo/orders/detail/edit.html', context)
+	return render(request, 'orders/detail/edit.html', context)
 
 def payments(request, order_id):
 	order = get_object_or_404(Order, id=order_id, account=request.user.details.account)
