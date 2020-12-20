@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 <div class="pt-3 pb-2">
 <div class="mb-2">
@@ -5,16 +7,15 @@
     <input type="hidden" name="hasproducts" value="{{ request.GET.hasproducts }}">
     <input type="hidden" name="pg" value="{{ request.GET.pg }}">
     {{ form }}
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{% trans 'Search' %}</button>
   </form>
 </div>
 <div class="table-responsive">
     <table class="table table-striped table-sm">
-    {% if brands %}
         <tr>
-            <th>Názov</th>
-            <th class="w-20">Počet produktov</th>
-            <th class="list_heading w-20"><a href="{% url 'products:brand_add' %}">Pridať značku</a></th>
+            <th>{% trans 'Name' %}</th>
+            <th>{% trans 'Products' %}</th>
+            <th><a href="{% url 'products:brand_add' %}">{% trans 'Add Brand' %}</a></th>
         </tr>
         {% for brand in brands %}
         <tr>
@@ -23,31 +24,28 @@
             {% if brand.product_set.count %}
                 <td>-</td>
             {% else %}
-                <td class="list"><a href=""><i class="fas fa-trash"></i></a></td>
+                <td><a href=""><i class="fas fa-trash"></i></a></td>
             {% endif %}                       
         </tr>
         {% endfor %}
-    {% else %}
-        <tr>
-            <td><a href="{% url 'products:brand_add' %}">Je to tu prázdne. Klikni sem a vytvor značku.</a></td>
-        </tr>
-    {% endif %}
     </table>
 </div>
     <div class="pagination">
         <span class="step-links mx-auto">
             {% if brands.has_previous %}
-                <a class="black" href="?hasproducts={{ request.GET.hasproducts }}&pg=1&search={{ request.GET.search }}">&laquo; prvá</a>
-                <a class="black" href="?hasproducts={{ request.GET.hasproducts }}&pg={{ brands.previous_page_number }}&search={{ request.GET.search }}">predchádzajúca</a>
+                <a class="black" href="?hasproducts={{ request.GET.hasproducts }}&pg=1&search={{ request.GET.search }}">&laquo; {% trans 'first' %}</a>
+                <a class="black" href="?hasproducts={{ request.GET.hasproducts }}&pg={{ brands.previous_page_number }}&search={{ request.GET.search }}">{% trans 'previous' %}</a>
             {% endif %}
 
-            <span class="current">
-                Strana {{ brands.number }} z {{ brands.paginator.num_pages }}.
-            </span>
+            {% if brands %}
+                <span class="current">
+                    {% trans 'Page' %} {{ brands.number }} {% trans 'of' %} {{ brands.paginator.num_pages }}.
+                </span>
+            {% endif %}
 
             {% if brands.has_next %}
-                <a class="black" href="?hasproducts={{ request.GET.hasproducts }}&pg={{ brands.next_page_number }}&search={{ request.GET.search }}">ďalšia</a>
-                <a class="black" href="?hasproducts={{ request.GET.hasproducts }}&pg={{ brands.paginator.num_pages }}&search={{ request.GET.search }}">posledná &raquo;</a>
+                <a class="black" href="?hasproducts={{ request.GET.hasproducts }}&pg={{ brands.next_page_number }}&search={{ request.GET.search }}">{% trans 'next' %}</a>
+                <a class="black" href="?hasproducts={{ request.GET.hasproducts }}&pg={{ brands.paginator.num_pages }}&search={{ request.GET.search }}">{% trans 'last' %} &raquo;</a>
             {% endif %}
         </span>
     </div>

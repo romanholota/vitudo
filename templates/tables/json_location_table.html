@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <div class="table-responsive">
   <table class="table">
     {% if locations %}
@@ -14,7 +16,7 @@
         </tr>
         {% endfor %}
     {% else %}
-        <td>Žiadne výsledky.</td>
+        <td>{% trans 'No results.' %}</td>
 	{% endif %}
 </table>
 </div>

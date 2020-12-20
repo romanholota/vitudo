@@ -59,7 +59,7 @@ class ItemManager(models.Manager):
 
 class ItemImageManager(models.Manager):
 	def create_item_image(self, **kwargs):
-		item_image = self.create(image=kwargs['image'], user=kwargs['user'])
+		item_image = self.create(image=kwargs['image'], account=kwargs['account'])
 		item_image.save()
 		item = kwargs['item']
 		item.images.add(item_image)

@@ -25,10 +25,10 @@ urlpatterns = [
 urlpatterns += i18n.i18n_patterns(
     path('admin/', admin.site.urls),
     path('i18n/', include('django.conf.urls.i18n')),
-    url('items/', include('items.urls')),
-    url('products/', include('products.urls')),
-    url('accounts/', include('accounts.urls')),
-    url('transfers/', include('transfers.urls')),
-    url('locations/', include('locations.urls')),
-    url('orders/', include('orders.urls')),
+    path('items/', include('items.urls')),
+    path('products/', include('products.urls')),
+    path('accounts/', include('accounts.urls')),
+    path('transfers/', include('transfers.urls')),
+    path('locations/', include('locations.urls')),
+    path('orders/', include('orders.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

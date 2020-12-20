@@ -1,24 +1,26 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% block menu %}
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light">
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'locations:customer_add' %}">Add Customer</a>
+            <a class="nav-link" href="{% url 'locations:customer_add' %}">{% trans 'Add Customer' %}</a>
           </li>
           <li class="nav-item">
             {% if request.GET %}
-            <a class="nav-link" href="{% url 'locations:customers' %}?hasorders=&pg={{ request.GET.pg }}&search={{ request.GET.search }}">All Customers</a>
+            <a class="nav-link" href="{% url 'locations:customers' %}?hasorders=&pg={{ request.GET.pg }}&search={{ request.GET.search }}">{% trans 'All Customers' %}</a>
             {% else %}
-            <a class="nav-link" href="{% url 'locations:customers' %}">All Customers</a>
+            <a class="nav-link" href="{% url 'locations:customers' %}">{% trans 'All Customers' %}</a>
             {% endif %}
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="{% url 'locations:customers' %}?hasorders=True&pg={{ request.GET.pg }}&search={{ request.GET.search }}">With Orders</a>
+              <a class="nav-link" href="{% url 'locations:customers' %}?hasorders=True&pg={{ request.GET.pg }}&search={{ request.GET.search }}">{% trans 'With Orders' %}</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="{% url 'locations:customers' %}?hasorders=False&pg={{ request.GET.pg }}&search={{ request.GET.search }}">Without Orders</a>
+              <a class="nav-link" href="{% url 'locations:customers' %}?hasorders=False&pg={{ request.GET.pg }}&search={{ request.GET.search }}">{% trans 'Without Orders' %}</a>
           </li>
         </ul>
       </div>

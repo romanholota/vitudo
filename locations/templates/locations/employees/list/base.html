@@ -1,24 +1,26 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% block menu %}
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light">
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'locations:employee_add' %}">Add Employee</a>
+            <a class="nav-link" href="{% url 'locations:employee_add' %}">{% trans 'Add Employee' %}</a>
           </li>
           <li class="nav-item">
             {% if request.GET %}
-            <a class="nav-link" href="{% url 'locations:employees' %}?hasaddresses=&pg={{ request.GET.pg }}&search={{ request.GET.search }}">All Employees</a>
+            <a class="nav-link" href="{% url 'locations:employees' %}?hasaddresses=&pg={{ request.GET.pg }}&search={{ request.GET.search }}">{% trans 'All Employees' %}</a>
             {% else %}
-            <a class="nav-link" href="{% url 'locations:employees' %}">All Employees</a>
+            <a class="nav-link" href="{% url 'locations:employees' %}">{% trans 'All Employees' %}</a>
             {% endif %}
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="{% url 'locations:employees' %}?hasaddresses=True&pg={{ request.GET.pg }}&search={{ request.GET.search }}">With Addresses</a>
+              <a class="nav-link" href="{% url 'locations:employees' %}?hasaddresses=True&pg={{ request.GET.pg }}&search={{ request.GET.search }}">{% trans 'With Addresses' %}</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="{% url 'locations:employees' %}?hasaddresses=False&pg={{ request.GET.pg }}&search={{ request.GET.search }}">Without Addresses</a>
+              <a class="nav-link" href="{% url 'locations:employees' %}?hasaddresses=False&pg={{ request.GET.pg }}&search={{ request.GET.search }}">{% trans 'Without Addresses' %}</a>
           </li>
         </ul>
       </div>

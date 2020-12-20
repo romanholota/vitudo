@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 
 from . import views
 
@@ -18,4 +18,6 @@ urlpatterns = [
     path('customers/add/', views.customer_add, name='customer_add'),
     path('customers/<int:customer_id>/', views.customer_detail, name='customer_detail'),
     path('customers/<int:customer_id>/orders/', views.customer_orders, name='customer_orders'),
+    path('addresses/', views.addresses, name='addresses'),
+    path('addresses/add/', views.address_add, name='address_add'),
 ]

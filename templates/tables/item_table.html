@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 <div class="pt-3 pb-2">
 <div class="mb-2">
@@ -5,19 +7,19 @@
     <input type="hidden" name="available" value="{{ request.GET.available }}">
     <input type="hidden" name="pg" value="{{ request.GET.pg }}">
     {{ form }}
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{% trans 'Search' %}</button>
   </form>
 </div>
  
 <div class="table-responsive">
   <table class="table table-striped table-sm">
         <tr>
-            <th class="w-10">ID</th>
-            <th class="w-10">Kód položky</th>
-            <th>Názov</th>
-            <th class="w-20">Poloha</th>
-            <th class="w-10">Dostupné</th>
-            <th class="list_heading w-10"><a href="{% url 'items:add' %}">Add Item</a></th>
+            <th>ID</th>
+            <th>{% trans 'Item Code' %}</th>
+            <th>{% trans 'Name' %}</th>
+            <th>{% trans 'Location' %}</th>
+            <th>{% trans 'Available' %}</th>
+            <th><a href="{% url 'items:add' %}">{% trans 'Add Item' %}</a></th>
         </tr>
         {% for item in items %}
         <tr>
@@ -43,17 +45,19 @@
 <div class="pagination">
     <span class="step-links mx-auto">
         {% if items.has_previous %}
-            <a class="black" href="?available={{ request.GET.available }}&pg=1&search={{ request.GET.search }}">&laquo; prvá</a>
-            <a class="black" href="?available={{ request.GET.available }}&pg={{ items.previous_page_number }}&search={{ request.GET.search }}">predchádzajúca</a>
+            <a href="?available={{ request.GET.available }}&pg=1&search={{ request.GET.search }}">&laquo; {% trans 'first' %}</a>
+            <a href="?available={{ request.GET.available }}&pg={{ items.previous_page_number }}&search={{ request.GET.search }}">{% trans 'previous' %}</a>
         {% endif %}
 
-        <span class="current">
-            Strana {{ items.number }} z {{ items.paginator.num_pages }}.
-        </span>
+        {% if items %}
+            <span class="current">
+                {% trans 'Page' %} {{ items.number }} {% trans 'of' %} {{ items.paginator.num_pages }}.
+            </span>
+        {% endif %}
 
         {% if items.has_next %}
-            <a class="black" href="?available={{ request.GET.available }}&pg={{ items.next_page_number }}&search={{ request.GET.search }}">ďalšia</a>
-            <a class="black" href="?available={{ request.GET.available }}&pg={{ items.paginator.num_pages }}&search={{ request.GET.search }}">posledná &raquo;</a>
+            <a href="?available={{ request.GET.available }}&pg={{ items.next_page_number }}&search={{ request.GET.search }}">{% trans 'next' %}</a>
+            <a href="?available={{ request.GET.available }}&pg={{ items.paginator.num_pages }}&search={{ request.GET.search }}">{% trans 'last' %} &raquo;</a>
         {% endif %}
     </span>
 </div>

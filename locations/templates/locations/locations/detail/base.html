@@ -1,20 +1,22 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% block menu %}
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light">
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'locations:index' %}">Back To Locations</a>
+            <a class="nav-link" href="{% url 'locations:index' %}">{% trans 'Back To Locations' %}</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'locations:detail' location.id %}">Detail</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'locations:items' location.id %}">Items</a>
+            <a class="nav-link" href="{% url 'locations:items' location.id %}">{% trans 'Items' %}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'locations:transfers' location.id %}">Transfers</a>
+            <a class="nav-link" href="{% url 'locations:transfers' location.id %}">{% trans 'Transfers' %}</a>
           </li>
         </ul>
       </div>

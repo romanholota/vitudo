@@ -46,36 +46,36 @@
 			  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
 			    <ul class="navbar-nav mr-auto">
 			      <li class="nav-item">
-			        <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
+			        <a class="nav-link" href="#">{% trans 'Dashboard' %}</a>
 			      </li>
 			      <li class="nav-item">
-			        <a class="nav-link" href="{% url 'items:index' %}">Items</a>
+			        <a class="nav-link" href="{% url 'items:index' %}">{% trans 'Items' %}</a>
 			      </li>
 			      <li class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="#
-			        " id="products" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Products</a>
+			        " id="products" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Products' %}</a>
 			        <div class="dropdown-menu" aria-labelledby="products">
-			          <a class="dropdown-item" href="{% url 'products:index' %}">Products</a>
-			          <a class="dropdown-item" href="{% url 'products:brands' %}">Brands</a>
-			          <a class="dropdown-item" href="{% url 'products:categories' %}">Categories</a>
+			          <a class="dropdown-item" href="{% url 'products:index' %}">{% trans 'Products' %}</a>
+			          <a class="dropdown-item" href="{% url 'products:brands' %}">{% trans 'Brands' %}</a>
+			          <a class="dropdown-item" href="{% url 'products:categories' %}">{% trans 'Categories' %}</a>
 			        </div>
 			      </li>
 			      <li class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="#
-			        " id="products" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Locations</a>
+			        " id="products" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Locations' %}</a>
 			        <div class="dropdown-menu" aria-labelledby="products">
-			          <a class="dropdown-item" href="{% url 'locations:index' %}">Locations</a>
-			          <a class="dropdown-item" href="{% url 'locations:employees' %}">Employees</a>
-			          <a class="dropdown-item" href="{% url 'locations:customers' %}">Customers</a>
-			          <a class="dropdown-item" href="{% url 'locations:employees' %}">Addresses</a>
+			          <a class="dropdown-item" href="{% url 'locations:index' %}">{% trans 'Locations' %}</a>
+			          <a class="dropdown-item" href="{% url 'locations:employees' %}">{% trans 'Employees' %}</a>
+			          <a class="dropdown-item" href="{% url 'locations:customers' %}">{% trans 'Customers' %}</a>
+			          <a class="dropdown-item" href="{% url 'locations:addresses' %}">{% trans 'Addresses' %}</a>
 			        </div>
 			      </li>
 			      <li class="nav-item dropdown">
-			        <a class="nav-link dropdown-toggle" href="{% url 'transfers:index' %}" id="products" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transfers</a>
+			        <a class="nav-link dropdown-toggle" href="{% url 'transfers:index' %}" id="products" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans 'Transfers' %}</a>
 			        <div class="dropdown-menu" aria-labelledby="products">
-			          <a class="dropdown-item" href="{% url 'transfers:transfer' %}">New Transfer</a>
-			          <a class="dropdown-item" href="{% url 'transfers:index' %}">History</a>
-			          <a class="dropdown-item" href="{% url 'orders:index' %}">Orders</a>
+			          <a class="dropdown-item" href="{% url 'transfers:transfer' %}">{% trans 'New Transfer' %}</a>
+			          <a class="dropdown-item" href="{% url 'transfers:index' %}">{% trans 'History' %}</a>
+			          <a class="dropdown-item" href="{% url 'orders:index' %}">{% trans 'Orders' %}</a>
 			        </div>
 			      </li>
 			    </ul>
@@ -94,10 +94,11 @@
 	    </div>
 	    {# The Footer #}
 	    <div class="footer">
-	        <div class="container-fluid">
+	        <div class="container-fluid pt-4">
 	        	<form action="{% url 'set_language' %}" method="post">
 	        		{% csrf_token %}
     				<input name="next" type="hidden" value="{{ redirect_to }}">
+    				<div class="form-group">
 				    <select name="language" class="form-control">
 				        {% get_current_language as LANGUAGE_CODE %}
 				        {% get_available_languages as LANGUAGES %}
@@ -108,7 +109,8 @@
 				            </option>
 				        {% endfor %}
 				    </select>
-				    <input type="submit" value="Go">
+					</div>
+    				<button type="submit" class="btn btn-primary">Submit</button>
 				</form>
 
 	        </div>

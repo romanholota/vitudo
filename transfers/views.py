@@ -118,7 +118,7 @@ def return_order(request, order_id):
 	items = Item.objects.active().at_order(order)
 
 	for item in items:
-		transfer = Transfer.objects.create_transfer(item=item, product=item.product, origin=item.location, location=item.warehouse, date=datetime.datetime.now(), account=request.user.details.account, item_available=True, item_transfered=False)
+		transfer = Transfer.objects.create_transfer(item=item, product=item.product, origin=item.location, target=item.warehouse, date=datetime.datetime.now(), account=request.user.details.account, item_available=True, item_transfered=False)
 	
 		order.pin_order(transfer=transfer, item=item)
 

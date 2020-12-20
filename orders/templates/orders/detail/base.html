@@ -1,36 +1,38 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% block menu %}
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light">
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'orders:index' %}">Back To Orders</a>
+            <a class="nav-link" href="{% url 'orders:index' %}">{% trans 'Back To Orders' %}</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'orders:detail' order.id %}">Detail</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'orders:payments' order.id %}">Payments</a>
+            <a class="nav-link" href="{% url 'orders:payments' order.id %}">{% trans 'Payments' %}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'orders:edit' order.id %}">Edit</a>
+            <a class="nav-link" href="{% url 'orders:edit' order.id %}">{% trans 'Edit' %}</a>
           </li>
           <li class="nav-item">
             {% if not order.is_done %}
-                <a class="nav-link" href="{% url 'orders:done' order.id %}">Označiť ako ukončenú</a>
+                <a class="nav-link" href="{% url 'orders:done' order.id %}">{% trans 'Mark As Done' %}</a>
             {% else %}
-                <a class="nav-link" href="{% url 'orders:not_done' order.id %}">Označiť ako aktívnu</a>    
+                <a class="nav-link" href="{% url 'orders:not_done' order.id %}">{% trans 'Mark As Active' %}</a>    
             {% endif %}
             {% if order.item_set.count is not 0 %}
-                <a class="nav-link" href="{% url 'transfers:return_order' order.id %}">Vrátiť všetky položky</a>
+                <a class="nav-link" href="{% url 'transfers:return_order' order.id %}">{% trans 'Return All Items' %}</a>
             {% endif %}
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'orders:items' order.id %}">Items</a>
+            <a class="nav-link" href="{% url 'orders:items' order.id %}">{% trans 'Items' %}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'orders:print' order.id %}">Print</a>
+            <a class="nav-link" href="{% url 'orders:print' order.id %}">{% trans 'Print' %}</a>
           </li>
         </ul>
       </div>

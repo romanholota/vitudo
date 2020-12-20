@@ -17,6 +17,9 @@ class TransferQuerySet(QuerySet):
 	def this_item(self, item):
 		return self.filter(item=item)
 
+	def search(self, search):
+		return self.filter(Q(origin_location__name__icontains=search) | Q(target_location__name__icontains=search) | Q(item__product__full_name__icontains=search))
+
 	def is_order(self, is_order):
 		if is_order == 'True':
 			return self.filter(order__isnull=False)

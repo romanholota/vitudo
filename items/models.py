@@ -1,5 +1,6 @@
 from django.db import models
 from django.forms import ModelForm, ModelChoiceField, Select, TextInput, Textarea, FileInput, NumberInput
+from django.utils.translation import gettext_lazy as _
 from accounts.models import Account
 from products.models import Product
 from locations.models import Location
@@ -38,19 +39,19 @@ class Item(models.Model):
 		return self.product.model
 
 class ItemForm(BaseModelForm):
-	product = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label="Product", empty_label='Choose product')
-	warehouse = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label="Warehouse", empty_label='Vyber hlavný sklad', help_text='Hlavný sklad na ktorý sa vráti položka po ukončení bežného prevodu alebo výpožičky.')
+	product = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label=_('Product'), empty_label=_('Choose product'))
+	warehouse = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label=_('Warehouse'), empty_label=_('Choose main warehouse'))
 
 	class Meta:
 		model = Item
 		fields = ['product', 'item_code', 'warehouse']
 		labels = {
-			"product": "Product",
-			"item_code": "Item Code",
-			"warehouse": "WareHouse",
+			'product': _('Product'),
+			'item_code': _('Item Code'),
+			'warehouse': _('Warehouse'),
     	}
 		widgets = {
-			'item_code': TextInput(attrs={'class': 'form-control', 'placeholder': 'Item Code'})
+			'item_code': TextInput(attrs={'class': 'form-control', 'placeholder': _('Item Code')})
     	}
 
 	def __init__(self, *args, **kwargs):

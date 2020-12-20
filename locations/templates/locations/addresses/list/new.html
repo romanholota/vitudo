@@ -1,4 +1,4 @@
-{% extends 'locations/employees/list/base.html' %}
+{% extends 'locations/addresses/list/base.html' %}
 
 {% load static %}
 
@@ -7,9 +7,9 @@
 {% block content %}
   <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 pb-2">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2">
-      <h1 class="h2">{% trans 'New Employee' %}</h1>
+      <h1 class="h2">{% trans 'New Address' %}</h1>
     </div>
-<form action="{% url 'locations:employee_add' %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'locations:address_add' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% include 'forms/form_template.html' with form=form %}
     <button type="submit" class="btn btn-primary">{% trans 'Submit' %}</button>

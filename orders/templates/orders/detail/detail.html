@@ -1,67 +1,58 @@
 {% extends 'orders/detail/base.html' %}
 
+{% load i18n %}
+
 {% block content %}
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2">
-            <h1 class="h2">Order No. {{ order.order_no }}</h1>
+            <h1 class="h2">{% trans 'Order No.' %} {{ order.order_no }}</h1>
         </div>
 
         <table class="table">
           <tbody>
             <tr>
-              <th scope="row">Customer</th>
+              <th scope="row">{% trans 'Customer' %}</th>
               <td><a href="{% url 'locations:customer_detail' location.customer.id %}">{{ location.customer.name }}</a></td>
             </tr>
             <tr>
-              <th scope="row">Start Date</th>
+              <th scope="row">{% trans 'Start Date' %}</th>
               <td>{{ order.start|date:"d.m.Y G:i:s" }}</td>
             </tr>
             <tr>
-              <th scope="row">Supposed End Date</th>
+              <th scope="row">{% trans 'Supposed End Date' %}</th>
               <td>{{ order.supposed_end|date:"d.m.Y G:i:s" }}</td>
+            </tr>
+            <tr>
+              <th scope="row">{% trans 'Supposed Price' %}</th>
+              <td>{{ order.supposed_price }}</td>
+            </tr>
+            <tr>
+              <th scope="row">{% trans 'Real Price' %}</th>
+              <td>{{ order.price }}</td>
+            </tr>
+            <tr>
+              <th scope="row">{% trans 'Paid' %}</th>
+              <td>{{ total_amount }}</td>
+            </tr>
+            <tr>
+              <th scope="row">{% trans 'Unreturned Items' %}</th>
+              <td>{{ order.item_set.count }} {% trans 'from' %} {{ order.item_count }}</td>
+            </tr>
+            <tr>
+              <th scope="row">{% trans 'Duration' %}</th>
+              <td>{{ hours }} h.</td>
+            </tr>
+            <tr>
+                <th scope="row">{% trans 'End Date' %}</th>
+                <td>
+                {% if order.is_done %}
+                    {{ order.real_end|date:"d.m.Y G:i:s" }}
+                {% else %}
+                    -
+                {% endif %}
+                </td>
             </tr>
           </tbody>
         </table>
     </main>
 {% endblock %}
-        <div class="flex-table">
-            <div class="flex-table-element"><p>Zákazník</p></div>
-            <div class="flex-table-element"><p class="list"><a href="">{{ location.name }}</a></p></div>
-        </div>
-        <div class="flex-table">
-            <div class="flex-table-element"><p>Dátum vypožičania</p></div>
-            <div class="flex-table-element"><p>{{ order.start|date:"d.m.Y G:i:s" }}</p></div>
-        </div> 
-        <div class="flex-table">
-            <div class="flex-table-element"><p>Predpokladaný dátum vrátenia</p></div>
-            <div class="flex-table-element"><p>{{ order.supposed_end|date:"d.m.Y G:i:s" }}</p></div>
-        </div> 
-        <div class="flex-table">
-            <div class="flex-table-element"><p>Predpokladaná cena</p></div>
-            <div class="flex-table-element"><p>{{ order.supposed_price }} €</p></div>
-        </div>
-        <div class="flex-table">
-            <div class="flex-table-element"><p>Skutočná cena</p></div>
-            <div class="flex-table-element"><p>{{ order.price }} €</p></div>
-        </div>
-        <div class="flex-table">
-            <div class="flex-table-element"><p>Zaplatené</p></div>
-            <div class="flex-table-element">{{ total_amount }} €</div>
-        </div>
-        <div class="flex-table">
-            <div class="flex-table-element"><p>Nevrátené položky</p></div>
-            <div class="flex-table-element"><p>{{ order.item_set.count }} z {{ order.item_count }}</p></div>
-        </div>
-        <div class="flex-table">
-            <div class="flex-table-element"><p>Trvanie výpožičky</p></div>
-            <div class="flex-table-element"><p>{{ hours }} hod.</p></div>
-        </div>
-        <div class="flex-table">
-            <div class="flex-table-element"><p>Dátum ukončenia</p></div>
-            <div class="flex-table-element">
-                {% if order.is_done %}
-                    <p>{{ order.real_end|date:"d.m.Y G:i:s" }}</p>
-                {% else %}
-                    <p>-</p>
-                {% endif %}
-            </div>

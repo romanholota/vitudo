@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 <div class="pt-3 pb-2">
 <div class="mb-2">
@@ -5,17 +7,16 @@
             <input type="hidden" name="hasitems" value="{{ request.GET.hasitems }}">
             <input type="hidden" name="pg" value="{{ request.GET.pg }}">
             {{ form }}
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{% trans 'Search' %}</button>
   </form>
 </div>
 <div class="table-responsive">
   <table class="table table-striped table-sm">
-    {% if locations %}
         <tr>
-            <th>Názov</th>
-            <th>Položky</th>
-            <th>Zákazník</th>
-            <th>Stavba</th>
+            <th>{% trans 'Name' %}</th>
+            <th>{% trans 'Items' %}</th>
+            <th>{% trans 'Customer' %}</th>
+            <th>{% trans 'Address' %}</th>
         </tr>
         {% for location in locations %}
         <tr>
@@ -33,27 +34,24 @@
             {% endif %}
         </tr>
         {% endfor %}
-    {% else %}
-        <tr>
-            <td>Je to tu prázdne. Vytvor zákazníka alebo adresu.</td>
-        </tr>
-    {% endif %}
     </table>
 </div>
     <div class="pagination">
         <span class="step-links mx-auto">
             {% if locations.has_previous %}
-                <a class="black" href="?hasitems={{ request.GET.hasitems }}&pg=1&search={{ request.GET.search }}">&laquo; prvá</a>
-                <a class="black" href="?hasitems={{ request.GET.hasitems }}&pg={{ locations.previous_page_number }}&search={{ request.GET.search }}">predchádzajúca</a>
+                <a href="?hasitems={{ request.GET.hasitems }}&pg=1&search={{ request.GET.search }}">&laquo; {% trans 'first' %}</a>
+                <a href="?hasitems={{ request.GET.hasitems }}&pg={{ locations.previous_page_number }}&search={{ request.GET.search }}">{% trans 'previous' %}</a>
             {% endif %}
 
-            <span class="current">
-                Strana {{ locations.number }} z {{ locations.paginator.num_pages }}.
-            </span>
+            {% if locations %}
+                <span class="current">
+                    {% trans 'Page' %} {{ locations.number }} {% trans 'of' %} {{ locations.paginator.num_pages }}.
+                </span>
+            {% endif %}
 
             {% if locations.has_next %}
-                <a class="black" href="?hasitems={{ request.GET.hasitems }}&pg={{ locations.next_page_number }}&search={{ request.GET.search }}">ďalšia</a>
-                <a class="black" href="?hasitems={{ request.GET.hasitems }}&pg={{ locations.paginator.num_pages }}&search={{ request.GET.search }}">posledná &raquo;</a>
+                <a href="?hasitems={{ request.GET.hasitems }}&pg={{ locations.next_page_number }}&search={{ request.GET.search }}">{% trans 'next' %}</a>
+                <a href="?hasitems={{ request.GET.hasitems }}&pg={{ locations.paginator.num_pages }}&search={{ request.GET.search }}">{% trans 'last' %} &raquo;</a>
             {% endif %}
         </span>
     </div>

@@ -2,6 +2,7 @@ from django.shortcuts import render, reverse, redirect, get_object_or_404
 from transfers.models import Transfer
 from orders.models import Order
 from items.models import Item
+from transfers.models import Transfer
 from vitudo.forms import SearchForm
 from vitudo.utils import pagination
 
@@ -179,7 +180,7 @@ def addresses(request):
 		'cities': cities,
 		'form': form,
 	}
-	return render(request, 'vitudo/addresses/list/index.html', context)
+	return render(request, 'locations/addresses/list/index.html', context)
 
 def address_add(request):
 	form = AddressForm(request.POST or None, account=request.user.details.account)
@@ -193,7 +194,7 @@ def address_add(request):
 		'form': form,
 	}
 
-	return render(request, 'vitudo/addresses/list/new.html', context)
+	return render(request, 'locations/addresses/list/new.html', context)
 
 def address_detail(request, address_id):
 	# nacitanie adresy podla id
@@ -203,7 +204,7 @@ def address_detail(request, address_id):
 		'address': address,
 	}
 
-	return render(request, 'vitudo/addresses/detail/detail.html', context)
+	return render(request, 'locations/addresses/detail/detail.html', context)
 
 def address_edit(request, address_id):
 	# nacitanie adresy podla id

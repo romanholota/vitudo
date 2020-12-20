@@ -1,12 +1,12 @@
 from django.shortcuts import render, get_object_or_404
 from vitudo.forms import SearchForm
 from vitudo.utils import pagination
-from payments.models import Payment
+from payments.models import Payment, PaymentForm
 from transfers.models import Transfer
 from locations.models import Location
 from django.utils import timezone
 
-from . models import Order, OrderPriceForm
+from . models import Order, OrderPriceForm, OrderItem
 
 # Create your views here.
 def index(request):
@@ -92,7 +92,7 @@ def payments(request, order_id):
 		'form': form,
 	}
 
-	return render(request, 'vitudo/orders/detail/payments.html', context)
+	return render(request, 'orders/detail/payments.html', context)
 
 def items(request, order_id):
 	order = get_object_or_404(Order, id=order_id)
@@ -109,7 +109,7 @@ def items(request, order_id):
 		'form': form,
 	}
 
-	return render(request, 'vitudo/orders/detail/items.html', context)	
+	return render(request, 'orders/detail/items.html', context)	
 
 
 def payment_delete(request, payment_id, order_id):

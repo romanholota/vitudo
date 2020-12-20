@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 <div class="pt-3 pb-2">
 <div class="mb-2">
@@ -5,56 +7,44 @@
     <input type="hidden" name="available" value="{{ request.GET.available }}">
     <input type="hidden" name="pg" value="{{ request.GET.pg }}">
     {{ form }}
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{% trans 'Search' %}</button>
   </form>
 </div>
  
 <div class="table-responsive">
   <table class="table table-striped table-sm">
-{% if products %}
     <tr>
-        <th>Názov</th>
-        <th class="w-20">Kategória</th>
-        <th class="w-20">Množstvo</th>
-        <th class="w-20">Má sériové?</th>
-        <th class="list_heading w-10"><a href="{% url 'products:index' %}">Pridať položku</a></th>
+        <th>{% trans 'Name' %}</th>
+        <th>{% trans 'Category' %}</th>
+        <th>{% trans 'Items' %}</th>
+        <th><a href="{% url 'products:add' %}">{% trans 'Add Product' %}</a></th>
     </tr>
     {% for product in products %}
     <tr>
-        <td class="list"><a href="{% url 'products:detail' product.id %}">{{ product.brand }} {{ product.model }}</a></td>
+        <td><a href="{% url 'products:detail' product.id %}">{{ product.brand }} {{ product.model }}</a></td>
         <td>{{ product.category }}</td>
         <td>{{ product.active_items_count }}</td>
-        <td>
-            {% if product.is_serial %}
-                <i class="fas fa-check"></i>
-            {% else %}
-                <i class="fas fa-times"></i>
-            {% endif %}
-        </td>
-        <td class="list"><a href="{% url 'products:index' %}"><i class="fas fa-shopping-basket"></i></a></td>                       
+        <td><a href="{% url 'products:index' %}"><i class="fas fa-shopping-basket"></i></a></td>                       
     </tr>
     {% endfor %}
-{% else %}
-    <tr>
-        <td class="list"><a href="{% url 'products:index' %}">Je to tu prázdne. Klikni sem a vytvor produkt.</a></td>
-    </tr>
-{% endif %}
 </table>
 </div>
 <div class="pagination">
     <span class="step-links mx-auto">
         {% if products.has_previous %}
-            <a class="black" href="?category={{ request.GET.category }}&pg=1&search={{ request.GET.search }}">&laquo; prvá</a>
-            <a class="black" href="?category={{ request.GET.category }}&pg={{ products.previous_page_number }}&search={{ request.GET.search }}">predchádzajúca</a>
+            <a href="?category={{ request.GET.category }}&pg=1&search={{ request.GET.search }}">&laquo; {% trans 'first' %}</a>
+            <a href="?category={{ request.GET.category }}&pg={{ products.previous_page_number }}&search={{ request.GET.search }}">{% trans 'previous' %}</a>
         {% endif %}
 
-        <span class="current">
-            Strana {{ products.number }} z {{ products.paginator.num_pages }}.
-        </span>
+        {% if products %}
+            <span class="current">
+                {% trans 'Page' %} {{ products.number }} {% trans 'of' %} {{ products.paginator.num_pages }}.
+            </span>
+        {% endif %}
 
         {% if products.has_next %}
-            <a class="black" href="?category={{ request.GET.category }}&pg={{ products.next_page_number }}&search={{ request.GET.search }}">ďalšia</a>
-            <a class="black" href="?category={{ request.GET.category }}&pg={{ products.paginator.num_pages }}&search={{ request.GET.search }}">posledná &raquo;</a>
+            <a href="?category={{ request.GET.category }}&pg={{ products.next_page_number }}&search={{ request.GET.search }}">{% trans 'next' %}</a>
+            <a href="?category={{ request.GET.category }}&pg={{ products.paginator.num_pages }}&search={{ request.GET.search }}">{% trans 'last' %} &raquo;</a>
         {% endif %}
     </span>
 </div>

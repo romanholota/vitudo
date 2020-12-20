@@ -1,20 +1,27 @@
 {% extends 'items/detail/base.html' %}
 
+{% load i18n %}
+
 {% block content %}
 {% if item.images %}
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
     {% for image in item.images.all %}
     <div class="w-25 p-3 d-inline-block">
         <img src="{{ image.image.url }}" alt="{{ item.full_name }}" class="img-thumbnail">
-        <a href="{% url 'items:edit_gallery' item.id %}">delete</a>
+        <a href="{% url 'items:edit_gallery' item.id %}">{% trans 'delete' %}</a>
     </div>
     {% endfor %}    
     {% endif %}
-    <h3>Pridať nové obrázky</h3>
+    <h3>{% trans 'Add New Images' %}</h3>
     <form action="{% url 'items:image_add' item.id %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <p><input class="form-control" type="file" name="images" multiple></p>
-        <input type="submit" value="Pridať">
+        <div class="form-group">
+        <div class="custom-file">
+        <input class="custom-file-input" type="file" name="images" id="customFile" multiple>
+        <label class="custom-file-label" for="customFile">{% trans 'Choose file' %}</label>    
+        </div>
+        </div>
+        <button type="submit" class="btn btn-primary">{% trans 'Submit' %}</button>
     </form>
 </main>
 {% endblock %}

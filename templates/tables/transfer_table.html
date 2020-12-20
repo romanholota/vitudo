@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
     <div class="pt-3 pb-2">
     <div class="mb-2">
@@ -5,54 +7,51 @@
             <input type="hidden" name="order" value="{{ request.GET.order }}">
             <input type="hidden" name="pg" value="{{ request.GET.pg }}">
             {{ form }}
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{% trans 'Search' %}</button>
         </form>
     </div>
 </div>
 <div class="table-responsive">
     <table class="table table-striped table-sm">
-    {% if transfers %}
         <tr>
-            <th class="w-20">Dátum</th>
-            <th>Náradie</th>
-            <th class="w-20">Odkiaľ</th>
-            <th class="w-20">Kam</th>
-            <th class="w-10">Výpožička</th>
+            <th>{% trans 'Date' %}</th>
+            <th>{% trans 'Item' %}</th>
+            <th>{% trans 'From' %}</th>
+            <th>{% trans 'To' %}</th>
+            <th>{% trans 'Order' %}</th>
         </tr>
         {% for transfer in transfers %}
         <tr>
             <td>{{ transfer.date|date:"d.m.Y G:i" }}</td>
             <td>{{ transfer.item.product.full_name }} ({{ transfer.item.id }})</td>
-            <td class="list"><a href="">{{ transfer.origin_location.name }}</a></td>
-            <td class="list"><a href="">{{ transfer.target_location.name }}</a></td>
+            <td><a href="">{{ transfer.origin_location.name }}</a></td>
+            <td><a href="">{{ transfer.target_location.name }}</a></td>
             {% if transfer.order %}
-                <td class="list"><a href="">{{ transfer.order.order_no }}</a></td>                       
+                <td><a href="">{{ transfer.order.order_no }}</a></td>                       
             {% else %}
                 <td>-</td>
             {% endif %}
         </tr>
         {% endfor %}
-    {% else %}
-        <tr>
-            <td>Bez prevodov.</td>
-        </tr>
-    {% endif %}
     </table>
 </div>
     <div class="pagination">
         <span class="step-links mx-auto">
             {% if transfers.has_previous %}
-                <a class="black" href="?order={{ request.GET.order }}&pg=1&search={{ request.GET.search }}">&laquo; prvá</a>
-                <a class="black" href="?order={{ request.GET.order }}&pg={{ transfers.previous_page_number }}&search={{ request.GET.search }}">predchádzajúca</a>
+                <a href="?order={{ request.GET.order }}&pg=1&search={{ request.GET.search }}">&laquo; {% trans 'first' %}</a>
+                <a href="?order={{ request.GET.order }}&pg={{ transfers.previous_page_number }}&search={{ request.GET.search }}">{% trans 'previous' %}</a>
             {% endif %}
 
-            <span class="current">
-                Strana {{ transfers.number }} z {{ transfers.paginator.num_pages }}.
-            </span>
+            {% if transfers %}
+                <span class="current">
+                    {% trans 'Page' %} {{ transfers.number }} {% trans 'of' %} {{ transfers.paginator.num_pages }}.
+                </span>
+            {% endif %}
+
 
             {% if transfers.has_next %}
-                <a class="black" href="?order={{ request.GET.order }}&pg={{ transfers.next_page_number }}&search={{ request.GET.search }}">ďalšia</a>
-                <a class="black" href="?order={{ request.GET.order }}&pg={{ transfers.paginator.num_pages }}&search={{ request.GET.search }}">posledná &raquo;</a>
+                <a href="?order={{ request.GET.order }}&pg={{ transfers.next_page_number }}&search={{ request.GET.search }}">{% trans 'next' %}</a>
+                <a href="?order={{ request.GET.order }}&pg={{ transfers.paginator.num_pages }}&search={{ request.GET.search }}">{% trans 'last' %} &raquo;</a>
             {% endif %}
         </span>
     </div>

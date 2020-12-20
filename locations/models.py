@@ -1,5 +1,6 @@
 from django.db import models
 from django.forms import ModelForm, ModelChoiceField, Select, TextInput, Textarea, FileInput, NumberInput
+from django.utils.translation import gettext_lazy as _
 from accounts.models import Account
 from vitudo.forms import BaseModelForm
 from products.models import Product
@@ -57,23 +58,23 @@ class Location(models.Model):
 		return self.name
 
 class AddressForm(BaseModelForm):
-	employee = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label="", empty_label='Vyber zamestnanca', required=False)
+	employee = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label="", empty_label=_('Choose employee'), required=False)
 
 	class Meta:
 		model = Address
 		fields = ['name', 'address', 'city', 'employee', 'comment']
 		labels = {
-			'name': '',
-			'address': '',
-			'city': '',
-			'employee': '',
-			'comment': '',
+			'name': _('Name'),
+			'address': _('Address'),
+			'city': _('City'),
+			'employee': _('Employee'),
+			'comment': _('Comment'),
 		}
 		widgets = {
-			'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Názov'}),
-			'address': TextInput(attrs={'class': 'form-control', 'placeholder': 'Adresa'}),
-			'city': TextInput(attrs={'class': 'form-control', 'placeholder': 'Mesto'}),
-			'comment': Textarea(attrs={'class':'form-control', 'placeholder':'Poznámka'})
+			'name': TextInput(attrs={'class': 'form-control', 'placeholder': _('Name')}),
+			'address': TextInput(attrs={'class': 'form-control', 'placeholder': _('Address')}),
+			'city': TextInput(attrs={'class': 'form-control', 'placeholder': _('City')}),
+			'comment': Textarea(attrs={'class':'form-control', 'placeholder': _('Comment')})
 		}
 
 	def __init__(self, *args, **kwargs):
@@ -87,33 +88,33 @@ class EmployeeForm(BaseModelForm):
 		model = Employee
 		fields = ['name', 'function', 'phone', 'email']
 		labels = {
-			"name": "Name",
-			"function": "Function",
-			"phone": "Phone",
-			"email": "E-mail",  
+			"name": _('Employee'),
+			"function": _('Role'),
+			"phone": _('Phone'),
+			"email": _('E-mail'),  
 		}
 		widgets = {
-			'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Meno'}),
-			'function': TextInput(attrs={'class': 'form-control', 'placeholder': 'Funkcia'}),
-			'phone': TextInput(attrs={'class': 'form-control', 'placeholder': 'Kontakt'}),
-			'email': TextInput(attrs={'class': 'form-control', 'placeholder': 'E-mail'}),
+			'name': TextInput(attrs={'class': 'form-control', 'placeholder': _('Employee')}),
+			'function': TextInput(attrs={'class': 'form-control', 'placeholder': _('Role')}),
+			'phone': TextInput(attrs={'class': 'form-control', 'placeholder': _('Phone')}),
+			'email': TextInput(attrs={'class': 'form-control', 'placeholder': _('E-mail')}),
 		}
 
 class LocationForm(BaseModelForm):
-	address = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label="", empty_label='Select address', required=False)
-	customer = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label="", empty_label='Select customer', required=False)
+	address = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label=_('Address'), empty_label=_('Select address'), required=False)
+	customer = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label=_('Customer'), empty_label=_('Select customer'), required=False)
 
 
 	class Meta:
 		model = Location
 		fields = ['name', 'address', 'customer']
 		labels = {
-			"name": "",
-			"address": "",
-			"customer": "",
+			"name": _('Name'),
+			"address": _('Address'),
+			"customer": _('Customer'),
 		}
 		widgets = {
-			'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Názov'}),
+			'name': TextInput(attrs={'class': 'form-control', 'placeholder': _('Name')}),
 		}
 
 	def __init__(self, *args, **kwargs):
@@ -127,12 +128,12 @@ class CustomerForm(BaseModelForm):
 		model = Customer
 		fields = ['name', 'phone', 'comment']
 		labels = {
-			"name": "",
-			"phone": "",
-			"comment": "",
+			"name": _('Customer'),
+			"phone": _('Phone'),
+			"comment": _('Comment'),
 		}
 		widgets = {
-			'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Meno'}),
-			'phone': TextInput(attrs={'class': 'form-control', 'placeholder': 'Kontakt'}),
-			'comment': Textarea(attrs={'class':'form-control', 'placeholder':'Poznámka'})
+			'name': TextInput(attrs={'class': 'form-control', 'placeholder': _('Name')}),
+			'phone': TextInput(attrs={'class': 'form-control', 'placeholder': _('Contact')}),
+			'comment': Textarea(attrs={'class':'form-control', 'placeholder': _('Comment')})
 		}

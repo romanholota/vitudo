@@ -1,0 +1,32 @@
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+    {% if payments %}
+        <tr>
+            <th class="w-20">Dátum</th>
+            <th class="w-20">Suma</th>
+            <th>Poznámka</th>
+            <th></th>
+        </tr>
+        {% for payment in payments %}
+        <tr>
+            <td>{{ payment.date|date:"d.m.Y G:i:s" }}</td>
+            <td>{{ payment.amount }} €</td>
+            {% if payment.comment %}
+            <td>{{ payment.comment }}</td>
+            {% else %}
+            <td>-</td>
+            {% endif %}
+            {% if payment.amount > 0 and payment.deleted is False %}
+            <td class="list"><a href="{% url 'orders:payment_delete' order.id payment.id %}">delete</a></td>
+            {% else %}
+            <td>-</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td>Bez úhrad.</td>
+        </tr>
+    {% endif %}
+    </table>
+</div>

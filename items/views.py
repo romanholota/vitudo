@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from vitudo.forms import SearchForm, NumberForm
 from vitudo.utils import pagination
+from transfers.models import Transfer
 
 from . models import Item, ItemImage, ItemDetails, ItemDetailsForm, ItemForm
 
@@ -21,6 +22,7 @@ def index(request):
 	context = {
 		'items': items,
 		'form': form,
+		'page_title': 'Items',
 	}
 	return render(request, 'items/list/index.html', context)
 
@@ -68,7 +70,7 @@ def transfers(request, item_id):
 		'transfers': transfers,
 		'form': form,
 	}
-	return render(request, 'vitudo/items/detail/transfers.html', context)
+	return render(request, 'items/detail/transfers.html', context)
 
 def remove(request, item_id):
 	if request.user.details.is_manager:
@@ -76,7 +78,7 @@ def remove(request, item_id):
 		item.is_active = False
 		item.save()
 
-	return redirect(reverse('vitudo:items'))
+	return redirect(reverse('items:index'))
 
 def detail(request, item_id):
 	item = get_object_or_404(Item, id=item_id, account=request.user.details.account)
@@ -109,11 +111,11 @@ def image_remove(request, image_id, item_id):
 	item = get_object_or_404(Item, id=item_id, account=request.user.details.account)
 	image = get_object_or_404(ItemImage, id=image_id, account=request.user.details.account)
 	image.delete()
-	return redirect(reverse('vitudo:item_edit_gallery', args=[item.id]))
+	return redirect(reverse('items:edit_gallery', args=[item.id]))
 
 def image_add(request, item_id):
 	item = get_object_or_404(Item, id=item_id, account=request.user.details.account)
 	if request.FILES:
 		for file in request.FILES.getlist('images'):
 			new_image = ItemImage.objects.create_item_image(image=file, account=request.user.details.account, item=item)
-	return redirect(reverse('vitudo:item_edit_gallery', args=[item.id]))
+	return redirect(reverse('items:edit_gallery', args=[item.id]))

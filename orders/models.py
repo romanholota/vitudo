@@ -1,6 +1,7 @@
 from django.db import models
 from locations.models import Customer
 from django import forms
+from django.utils.translation import gettext_lazy as _
 from vitudo.forms import BaseModelForm
 from accounts.models import Account
 
@@ -51,10 +52,10 @@ class OrderPriceForm(BaseModelForm):
 		model = Order
 		fields = ['price', 'comment']
 		labels = {
-			'price': 'Price',
-			'comment': 'Comment',
+			'price': _('Final Price'),
+			'comment': _('Comment'),
 		}
 		widgets = {
-			'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Konečná cena'}),
-			'comment': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Poznámka'}),			
+			'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': _('Final Price')}),
+			'comment': forms.TextInput(attrs={'class': 'form-control', 'placeholder': _('Comment')}),			
 		}
