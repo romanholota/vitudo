@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
 
+{% load i18n %}
+
 {% block menu %}
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light">
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'products:add' %}">Add Product</a>
+            <a class="nav-link" href="{% url 'products:add' %}">{% trans 'Add Product' %}</a>
           </li>
           <li class="nav-item">
             {% if request.GET %}
-            <a class="nav-link" href="{% url 'products:index' %}?category=&pg={{ request.GET.pg }}&search={{ request.GET.search }}">All Categories</a>
+            <a class="nav-link" href="{% url 'products:index' %}?category=&pg={{ request.GET.pg }}&search={{ request.GET.search }}">{% trans 'All Categories' %}</a>
             {% else %}
-            <a class="nav-link" href="{% url 'products:index' %}">All Categories</a>
+            <a class="nav-link" href="{% url 'products:index' %}">{% trans 'All Categories' %}</a>
             {% endif %}
           </li>
           {% for category in categories %}

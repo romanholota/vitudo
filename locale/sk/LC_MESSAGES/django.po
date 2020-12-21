@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-19 21:45+0100\n"
-"PO-Revision-Date: 2020-12-19 21:48+0100\n"
+"POT-Creation-Date: 2020-12-20 21:38+0100\n"
+"PO-Revision-Date: 2020-12-20 21:37+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sk\n"
@@ -53,6 +53,7 @@ msgstr "Vyber hlavný sklad"
 
 #: .\items\models.py:50 .\items\models.py:54
 #: .\templates\tables\item_table.html:18
+#: .\templates\tables\order_item_table.html:16
 msgid "Item Code"
 msgstr "Kód položky"
 
@@ -80,7 +81,14 @@ msgstr "Prevody"
 #: .\locations\templates\locations\employees\list\new.html:15
 #: .\locations\templates\locations\locations\detail\detail.html:14
 #: .\locations\templates\locations\locations\list\new.html:15
-#: .\orders\templates\orders\detail\edit.html:12
+#: .\orders\templates\orders\detail\edit.html:14
+#: .\orders\templates\orders\detail\payments.html:14
+#: .\products\templates\products\brands\detail\detail.html:12
+#: .\products\templates\products\brands\list\new.html:13
+#: .\products\templates\products\categories\detail\detail.html:12
+#: .\products\templates\products\categories\list\new.html:13
+#: .\products\templates\products\products\detail\detail.html:13
+#: .\products\templates\products\products\list\new.html:14
 msgid "Submit"
 msgstr "Odoslať"
 
@@ -123,12 +131,14 @@ msgid "Choose employee"
 msgstr "Vyber zamestnanca"
 
 #: .\locations\models.py:67 .\locations\models.py:74 .\locations\models.py:112
-#: .\locations\models.py:117 .\locations\models.py:136
+#: .\locations\models.py:117 .\locations\models.py:136 .\products\models.py:100
+#: .\products\models.py:103 .\products\models.py:111 .\products\models.py:114
 #: .\templates\tables\address_table.html:16
 #: .\templates\tables\brand_table.html:16
 #: .\templates\tables\category_table.html:16
 #: .\templates\tables\item_table.html:19
 #: .\templates\tables\location_table.html:16
+#: .\templates\tables\order_item_table.html:17
 #: .\templates\tables\product_table.html:17
 msgid "Name"
 msgstr "Názov"
@@ -152,6 +162,8 @@ msgstr "Zamestnanec"
 
 #: .\locations\models.py:71 .\locations\models.py:77 .\locations\models.py:133
 #: .\locations\models.py:138 .\orders\models.py:56 .\orders\models.py:60
+#: .\payments\models.py:27 .\payments\models.py:31
+#: .\templates\tables\basic_payment_table.html:6
 msgid "Comment"
 msgstr "Poznámka"
 
@@ -175,7 +187,7 @@ msgid "Select address"
 msgstr "Vyber adresu"
 
 #: .\locations\models.py:105 .\locations\models.py:114
-#: .\locations\models.py:131 .\orders\templates\orders\detail\detail.html:12
+#: .\locations\models.py:131 .\orders\templates\orders\detail\detail.html:14
 #: .\templates\tables\customer_table.html:16
 #: .\templates\tables\location_table.html:18
 #: .\templates\tables\order_table.html:16
@@ -269,8 +281,9 @@ msgid "Back To Locations"
 msgstr "Späť na lokácie"
 
 #: .\locations\templates\locations\locations\detail\base.html:16
-#: .\orders\templates\orders\detail\base.html:30 .\templates\base.html:52
-#: .\templates\tables\location_table.html:17
+#: .\orders\templates\orders\detail\base.html:32
+#: .\products\templates\products\products\detail\base.html:14
+#: .\templates\base.html:52 .\templates\tables\location_table.html:17
 #: .\templates\tables\product_table.html:19
 msgid "Items"
 msgstr "Položky"
@@ -300,100 +313,205 @@ msgstr "Nová lokácia"
 msgid "Final Price"
 msgstr "Skutočná cena"
 
-#: .\orders\templates\orders\detail\base.html:8
+#: .\orders\templates\orders\detail\base.html:10
 msgid "Back To Orders"
 msgstr "Späť na výpožičky"
 
-#: .\orders\templates\orders\detail\base.html:14
+#: .\orders\templates\orders\detail\base.html:16
 msgid "Payments"
 msgstr "Platby"
 
-#: .\orders\templates\orders\detail\base.html:17
+#: .\orders\templates\orders\detail\base.html:19
 msgid "Edit"
 msgstr "Upraviť"
 
-#: .\orders\templates\orders\detail\base.html:21
+#: .\orders\templates\orders\detail\base.html:23
 msgid "Mark As Done"
 msgstr "Označiť ako ukončenú"
 
-#: .\orders\templates\orders\detail\base.html:23
+#: .\orders\templates\orders\detail\base.html:25
 msgid "Mark As Active"
 msgstr "Označiť ako aktívnu"
 
-#: .\orders\templates\orders\detail\base.html:26
+#: .\orders\templates\orders\detail\base.html:28
 msgid "Return All Items"
 msgstr "Vrátiť všetky položky"
 
-#: .\orders\templates\orders\detail\base.html:33
+#: .\orders\templates\orders\detail\base.html:35
 msgid "Print"
 msgstr "Tlačiť"
 
-#: .\orders\templates\orders\detail\detail.html:6
-#: .\orders\templates\orders\detail\edit.html:6
+#: .\orders\templates\orders\detail\detail.html:8
+#: .\orders\templates\orders\detail\edit.html:8
+#: .\orders\templates\orders\detail\payments.html:8
 msgid "Order No."
 msgstr "Výpožička č."
 
-#: .\orders\templates\orders\detail\detail.html:16
+#: .\orders\templates\orders\detail\detail.html:18
 msgid "Start Date"
 msgstr "Začiatok"
 
-#: .\orders\templates\orders\detail\detail.html:20
+#: .\orders\templates\orders\detail\detail.html:22
 msgid "Supposed End Date"
 msgstr "Prepokladané vrátenie"
 
-#: .\orders\templates\orders\detail\detail.html:24
+#: .\orders\templates\orders\detail\detail.html:26
 msgid "Supposed Price"
 msgstr "Prepokladaná cena"
 
-#: .\orders\templates\orders\detail\detail.html:28
+#: .\orders\templates\orders\detail\detail.html:30
 msgid "Real Price"
 msgstr "Skutočná cena"
 
-#: .\orders\templates\orders\detail\detail.html:32
+#: .\orders\templates\orders\detail\detail.html:34
 msgid "Paid"
 msgstr "Uhradené"
 
-#: .\orders\templates\orders\detail\detail.html:36
+#: .\orders\templates\orders\detail\detail.html:38
 msgid "Unreturned Items"
 msgstr "Nevrátené položky"
 
-#: .\orders\templates\orders\detail\detail.html:37
-msgid "z"
-msgstr ""
+#: .\orders\templates\orders\detail\detail.html:39
+msgid "from"
+msgstr "od"
 
-#: .\orders\templates\orders\detail\detail.html:40
+#: .\orders\templates\orders\detail\detail.html:42
 msgid "Duration"
 msgstr "Trvanie"
 
-#: .\orders\templates\orders\detail\detail.html:44
+#: .\orders\templates\orders\detail\detail.html:46
 msgid "End Date"
 msgstr "Dátum ukončenia"
 
-#: .\orders\templates\orders\list\base.html:9
 #: .\orders\templates\orders\list\base.html:11
+#: .\orders\templates\orders\list\base.html:13
 msgid "All Orders"
 msgstr "Všetky výpožičky"
 
-#: .\orders\templates\orders\list\base.html:15
+#: .\orders\templates\orders\list\base.html:17
 #: .\templates\tables\order_table.html:20
 msgid "Done"
 msgstr "Ukončená"
 
-#: .\orders\templates\orders\list\base.html:18
-#, fuzzy
-#| msgid "Done"
+#: .\orders\templates\orders\list\base.html:20
 msgid "Not Done"
-msgstr "Ukončená"
+msgstr "Neukončená"
 
-#: .\templates\base.html:49
-msgid "Dashboard"
-msgstr "Nástenka"
+#: .\payments\models.py:26 .\payments\models.py:30 .\products\models.py:84
+#: .\templates\tables\basic_payment_table.html:5
+#: .\templates\tables\order_item_table.html:18
+#: .\templates\tables\order_table.html:17
+msgid "Price"
+msgstr "Cena"
 
+#: .\products\models.py:52 .\products\models.py:59
+msgid "Brand"
+msgstr "Značka"
+
+#: .\products\models.py:52
+msgid "Select brand"
+msgstr "Vyber značku"
+
+#: .\products\models.py:53 .\products\models.py:60
+#: .\templates\tables\product_table.html:18
+msgid "Category"
+msgstr "Kategória"
+
+#: .\products\models.py:53
+msgid "Select category"
+msgstr "Vyber kategóriu"
+
+#: .\products\models.py:61 .\products\models.py:65
+msgid "Model"
+msgstr "Model"
+
+#: .\products\models.py:62 .\products\models.py:66
+msgid "Alternative Name"
+msgstr "Hovorový názov"
+
+#: .\products\models.py:82 .\products\models.py:87
+msgid "Description"
+msgstr "Popis"
+
+#: .\products\models.py:83
+msgid "Image"
+msgstr "Obrázok"
+
+#: .\products\models.py:89
+msgid "Price for 24 hours"
+msgstr "Cena za 24 hodín"
+
+#: .\products\templates\products\brands\detail\base.html:8
+#: .\products\templates\products\brands\list\base.html:12
+#: .\products\templates\products\brands\list\base.html:14
+msgid "All Brands"
+msgstr "Všetky značky"
+
+#: .\products\templates\products\brands\detail\base.html:14
+#: .\products\templates\products\categories\detail\base.html:14
 #: .\templates\base.html:56 .\templates\base.html:58
 #: .\templates\tables\brand_table.html:17
 #: .\templates\tables\category_table.html:17
 msgid "Products"
 msgstr "Produkty"
+
+#: .\products\templates\products\brands\detail\base.html:18
+#: .\products\templates\products\categories\detail\base.html:18
+msgid "Delete"
+msgstr "Vymazať"
+
+#: .\products\templates\products\brands\list\base.html:8
+#: .\templates\tables\brand_table.html:18
+msgid "Add Brand"
+msgstr "Pridať značku"
+
+#: .\products\templates\products\brands\list\base.html:18
+#: .\products\templates\products\categories\list\base.html:18
+msgid "With Products"
+msgstr "S produktami"
+
+#: .\products\templates\products\brands\list\base.html:21
+#: .\products\templates\products\categories\list\base.html:21
+msgid "Without Products"
+msgstr "Bez produktov"
+
+#: .\products\templates\products\brands\list\new.html:8
+msgid "New Brand"
+msgstr "Pridať značku"
+
+#: .\products\templates\products\categories\detail\base.html:8
+#: .\products\templates\products\categories\list\base.html:12
+#: .\products\templates\products\categories\list\base.html:14
+#: .\products\templates\products\products\list\base.html:12
+#: .\products\templates\products\products\list\base.html:14
+msgid "All Categories"
+msgstr "Všetky kategórie"
+
+#: .\products\templates\products\categories\list\base.html:8
+#: .\templates\tables\category_table.html:18
+msgid "Add Category"
+msgstr "Pridať kategóriu"
+
+#: .\products\templates\products\categories\list\new.html:8
+msgid "New Category"
+msgstr "Nová kategória"
+
+#: .\products\templates\products\products\detail\base.html:8
+msgid "Back To Products"
+msgstr "Späť na produkty"
+
+#: .\products\templates\products\products\list\base.html:8
+#: .\templates\tables\product_table.html:20
+msgid "Add Product"
+msgstr "Pridať produkt"
+
+#: .\products\templates\products\products\list\new.html:8
+msgid "New Product"
+msgstr "Nový produkt"
+
+#: .\templates\base.html:49
+msgid "Dashboard"
+msgstr "Nástenka"
 
 #: .\templates\base.html:59
 msgid "Brands"
@@ -508,19 +626,17 @@ msgstr "posledná"
 #: .\templates\tables\employee_table.html:10
 #: .\templates\tables\item_table.html:10
 #: .\templates\tables\location_table.html:10
+#: .\templates\tables\order_item_table.html:9
 #: .\templates\tables\order_table.html:9
 #: .\templates\tables\product_table.html:10
 #: .\templates\tables\transfer_table.html:10
 msgid "Search"
 msgstr "Vyhľadať"
 
-#: .\templates\tables\brand_table.html:18
-msgid "Add Brand"
-msgstr "Pridať značku"
-
-#: .\templates\tables\category_table.html:18
-msgid "Add Category"
-msgstr "Pridať kategóriu"
+#: .\templates\tables\basic_payment_table.html:4
+#: .\templates\tables\transfer_table.html:17
+msgid "Date"
+msgstr "Dátum"
 
 #: .\templates\tables\item_table.html:20
 msgid "Location"
@@ -534,10 +650,6 @@ msgstr "Dostupná"
 msgid "No results."
 msgstr "Bez výsledkov."
 
-#: .\templates\tables\order_table.html:17
-msgid "Price"
-msgstr "Cena"
-
 #: .\templates\tables\order_table.html:18
 msgid "Start"
 msgstr "Začiatok"
@@ -545,18 +657,6 @@ msgstr "Začiatok"
 #: .\templates\tables\order_table.html:19
 msgid "Supposed End"
 msgstr "Prepokladané vrátenie"
-
-#: .\templates\tables\product_table.html:18
-msgid "Category"
-msgstr "Kategória"
-
-#: .\templates\tables\product_table.html:20
-msgid "Add Product"
-msgstr "Pridať produkt"
-
-#: .\templates\tables\transfer_table.html:17
-msgid "Date"
-msgstr "Dátum"
 
 #: .\templates\tables\transfer_table.html:18
 msgid "Item"
@@ -585,6 +685,11 @@ msgstr "Angličtina"
 #: .\vitudo\settings.py:119
 msgid "Slovak"
 msgstr "Slovenčina"
+
+#, fuzzy
+#~| msgid "Brands"
+#~ msgid "All Brandss"
+#~ msgstr "Značky"
 
 #~ msgid "Empty here."
 #~ msgstr "Je to tu prázdne."

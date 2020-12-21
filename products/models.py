@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from accounts.models import Account
 from vitudo.forms import BaseModelForm
 from django.forms import ModelForm, ModelChoiceField, Select, TextInput, Textarea, FileInput, NumberInput
@@ -48,21 +49,21 @@ class Product(models.Model):
 		return Product.objects.filter(id=self.id, item__is_active=True).count()
 
 class ProductForm(BaseModelForm):
-	brand = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label="Brand", empty_label='Select brand')
-	category = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label="Category", empty_label='Select category')
+	brand = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label=_('Brand'), empty_label=_('Select brand'))
+	category = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label=_('Category'), empty_label=_('Select category'))
 
 	class Meta:
 		model = Product
 		fields = ['brand', 'category', 'model', 'alternative_name']
 		labels = {
-			"brand": "Brand",
-			"category": "Category",
-			"model": "Model",
-			'alternative_name': 'Alternative Name',
+			'brand': _('Brand'),
+			'category': _('Category'),
+			'model': _('Model'),
+			'alternative_name': _('Alternative Name'),
     	}
 		widgets = {
-			'model': TextInput(attrs={'class': 'form-control', 'placeholder': 'Model'}),
-			'alternative_name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Hovorový názov'})
+			'model': TextInput(attrs={'class': 'form-control', 'placeholder': _('Model')}),
+			'alternative_name': TextInput(attrs={'class': 'form-control', 'placeholder': _('Alternative Name')})
     	}
 
 	def __init__(self, *args, **kwargs):
@@ -78,18 +79,14 @@ class ProductDetailsForm(BaseModelForm):
 		model = ProductDetails
 		fields = ['desc', 'image', 'price']
 		labels = {
-			"desc": "Description",
-			"image": "Image",
-			"price": "Price",
-    	}
-		help_texts = {
-			'desc': 'Stručný popis produktu a jeho hlavných vlastností.',
-    		'price': 'Cena za 24 hodín v EUR.',
+			'desc': _('Description'),
+			'image': _('Image'),
+			'price': _('Price'),
     	}
 		widgets = {
-			'desc': Textarea(attrs={'class':'form-control', 'placeholder':'Description'}),
+			'desc': Textarea(attrs={'class':'form-control', 'placeholder': _('Description')}),
 			'image': FileInput(attrs={'class': 'file-input'}),
-			'price': NumberInput(attrs={'class': 'form-control', 'placeholder': 'Price for 24 hours'}),
+			'price': NumberInput(attrs={'class': 'form-control', 'placeholder': _('Price for 24 hours')}),
     	}
 	def __init__(self, *args, **kwargs):
 		super(ProductDetailsForm, self).__init__(*args, **kwargs)
@@ -100,10 +97,10 @@ class BrandForm(BaseModelForm):
 		model = Brand
 		fields = ['name']
 		labels = {
-			"name": "Name",
+			'name': _('Name'),
 		}
 		widgets = {
-			'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Názov'}),
+			'name': TextInput(attrs={'class': 'form-control', 'placeholder': _('Name')}),
 		}
 
 class CategoryForm(BaseModelForm):
@@ -111,8 +108,8 @@ class CategoryForm(BaseModelForm):
 		model = Category
 		fields = ['name']
 		labels = {
-			"name": "Name",
+			'name': _('Name'),
 		}
 		widgets = {
-			'name': TextInput(attrs={'class': 'form-control', 'placeholder': 'Názov'}),
+			'name': TextInput(attrs={'class': 'form-control', 'placeholder': _('Name')}),
 		}
