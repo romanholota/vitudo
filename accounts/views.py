@@ -5,7 +5,7 @@ from .forms import UserLoginForm, UserRegisterForm
 
 
 # Create your views here.
-def login_view(request):
+def login_user(request):
 	next = request.GET.get('next')
 	form = UserLoginForm(request.POST or None)
 	if form.is_valid():
@@ -26,6 +26,6 @@ def login_view(request):
 
 	return render(request, 'accounts/login.html', context)
 
-def logout_view(request):
+def logout_user(request):
 	logout(request)
-	return redirect('/accounts/login')
+	return redirect(reverse('accounts:login'))

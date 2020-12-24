@@ -33,7 +33,7 @@
     <link href="{% static 'accounts/signin.css' %}" rel="stylesheet">
   </head>
   <body class="text-center">
-    <form class="form-signin" action="{% url 'accounts:login_view' %}" method="post">
+    <form class="form-signin" action="{% url 'accounts:login' %}" method="post">
     	{% csrf_token %}
 	  	<h1 class="h3 mb-3 font-weight-normal">{% trans 'Vitudo' %}</h1>
 	  	<label for="id_username" class="sr-only">{% trans 'Username' %}</label>

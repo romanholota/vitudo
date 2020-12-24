@@ -12,7 +12,9 @@
     </div>
     {% endfor %}    
     {% endif %}
-    <h3>{% trans 'Add New Images' %}</h3>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2">
+      <h1 class="h2">{% trans 'Add New Images' %}</h1>
+    </div>
     <form action="{% url 'items:image_add' item.id %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">

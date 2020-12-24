@@ -18,6 +18,11 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'items:transfers' item.id %}">{% trans 'Transfers' %}</a>
           </li>
+          {% if perms.items.delete_item %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'items:delete' item.id %}">{% trans 'Delete' %}</a>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </nav>

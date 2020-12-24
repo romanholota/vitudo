@@ -72,8 +72,8 @@ def transfers(request, item_id):
 	}
 	return render(request, 'items/detail/transfers.html', context)
 
-def remove(request, item_id):
-	if request.user.details.is_manager:
+def delete(request, item_id):
+	if request.user.has_perm('delete_item'):
 		item = get_object_or_404(Item, id=item_id, account=request.user.details.account)
 		item.is_active = False
 		item.save()

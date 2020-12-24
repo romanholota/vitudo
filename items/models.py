@@ -35,6 +35,11 @@ class Item(models.Model):
 
 	objects = ItemManager()
 
+	class Meta:
+		permissions = [
+			('can_delete', 'Delete item'),
+		]
+
 	def __str__(self):
 		return self.product.model
 
