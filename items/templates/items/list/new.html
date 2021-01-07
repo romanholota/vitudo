@@ -15,7 +15,12 @@
     {% include 'forms/form_template.html' with form=form %}
     {{ number_form.as_p }}
     {% include 'forms/form_template.html' with form=details_form %}
-    <p><input type="file" name="images" multiple></p>
+    <div class="form-group">
+        <div class="custom-file">
+        <input class="custom-file-input" type="file" name="images" id="customFile" multiple>
+        <label class="custom-file-label" for="customFile">{% trans 'Choose file' %}</label>    
+        </div>
+    </div>
     <button type="submit" class="btn btn-primary">{% trans 'Submit' %}</button>
 </form>
 </main>

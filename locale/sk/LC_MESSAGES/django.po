@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-23 21:04+0100\n"
-"PO-Revision-Date: 2020-12-23 21:02+0100\n"
+"POT-Creation-Date: 2020-12-27 19:50+0100\n"
+"PO-Revision-Date: 2020-12-27 19:50+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: sk\n"
@@ -35,23 +35,23 @@ msgstr "Heslo"
 msgid "Sign in"
 msgstr "Prihlásiť sa"
 
-#: .\items\models.py:42 .\items\models.py:49
+#: .\items\models.py:47 .\items\models.py:54
 msgid "Product"
 msgstr "Produkt"
 
-#: .\items\models.py:42
+#: .\items\models.py:47
 msgid "Choose product"
 msgstr "Vyber produkt"
 
-#: .\items\models.py:43 .\items\models.py:51
+#: .\items\models.py:48 .\items\models.py:56
 msgid "Warehouse"
 msgstr "Sklad"
 
-#: .\items\models.py:43
+#: .\items\models.py:48
 msgid "Choose main warehouse"
 msgstr "Vyber hlavný sklad"
 
-#: .\items\models.py:50 .\items\models.py:54
+#: .\items\models.py:55 .\items\models.py:59
 #: .\templates\tables\item_table.html:18
 #: .\templates\tables\order_item_table.html:16
 #: .\transfers\templates\transfers\list\transfer.html:30
@@ -72,9 +72,15 @@ msgstr "Galéria"
 msgid "Transfers"
 msgstr "Prevody"
 
+#: .\items\templates\items\detail\base.html:23
+#: .\products\templates\products\brands\detail\base.html:18
+#: .\products\templates\products\categories\detail\base.html:20
+msgid "Delete"
+msgstr "Vymazať"
+
 #: .\items\templates\items\detail\detail.html:15
-#: .\items\templates\items\detail\edit_gallery.html:24
-#: .\items\templates\items\list\new.html:19
+#: .\items\templates\items\detail\edit_gallery.html:26
+#: .\items\templates\items\list\new.html:24
 #: .\locations\templates\locations\addresses\list\new.html:15
 #: .\locations\templates\locations\customers\detail\detail.html:14
 #: .\locations\templates\locations\customers\list\new.html:15
@@ -90,6 +96,7 @@ msgstr "Prevody"
 #: .\products\templates\products\categories\list\new.html:13
 #: .\products\templates\products\products\detail\detail.html:15
 #: .\products\templates\products\products\list\new.html:14
+#: .\transfers\templates\transfers\list\transfer.html:22
 msgid "Submit"
 msgstr "Odoslať"
 
@@ -97,11 +104,12 @@ msgstr "Odoslať"
 msgid "delete"
 msgstr "vymazať"
 
-#: .\items\templates\items\detail\edit_gallery.html:15
+#: .\items\templates\items\detail\edit_gallery.html:16
 msgid "Add New Images"
 msgstr "Pridaj nové obrázky"
 
-#: .\items\templates\items\detail\edit_gallery.html:21
+#: .\items\templates\items\detail\edit_gallery.html:23
+#: .\items\templates\items\list\new.html:21
 msgid "Choose file"
 msgstr "Vyber súbor"
 
@@ -165,7 +173,7 @@ msgstr "Zamestnanec"
 #: .\locations\models.py:71 .\locations\models.py:77 .\locations\models.py:133
 #: .\locations\models.py:138 .\orders\models.py:56 .\orders\models.py:60
 #: .\payments\models.py:27 .\payments\models.py:31
-#: .\templates\tables\basic_payment_table.html:6 .\transfers\forms.py:7
+#: .\templates\tables\basic_payment_table.html:8 .\transfers\forms.py:7
 msgid "Comment"
 msgstr "Poznámka"
 
@@ -400,7 +408,7 @@ msgid "Not Done"
 msgstr "Neukončená"
 
 #: .\payments\models.py:26 .\payments\models.py:30 .\products\models.py:84
-#: .\templates\tables\basic_payment_table.html:5
+#: .\templates\tables\basic_payment_table.html:7
 #: .\templates\tables\order_item_table.html:18
 #: .\templates\tables\order_table.html:17
 msgid "Price"
@@ -457,11 +465,6 @@ msgstr "Všetky značky"
 #: .\templates\tables\category_table.html:17
 msgid "Products"
 msgstr "Produkty"
-
-#: .\products\templates\products\brands\detail\base.html:18
-#: .\products\templates\products\categories\detail\base.html:20
-msgid "Delete"
-msgstr "Vymazať"
 
 #: .\products\templates\products\brands\list\base.html:10
 #: .\templates\tables\brand_table.html:18
@@ -544,6 +547,10 @@ msgstr "Nový prevod"
 #: .\templates\base.html:77
 msgid "History"
 msgstr "História"
+
+#: .\templates\base.html:82
+msgid "Logout"
+msgstr "Odhlásiť sa"
 
 #: .\templates\layout\pagination.html:6
 #: .\templates\tables\address_table.html:38
@@ -637,7 +644,7 @@ msgstr "posledná"
 msgid "Search"
 msgstr "Vyhľadať"
 
-#: .\templates\tables\basic_payment_table.html:4
+#: .\templates\tables\basic_payment_table.html:6
 #: .\templates\tables\transfer_table.html:17
 msgid "Date"
 msgstr "Dátum"
