@@ -21,7 +21,7 @@
         {% for location in locations %}
         <tr>
             <td><a href="{% url 'locations:detail' location.id %}">{{ location.name }}</a></td>
-            <td>{{ location.item_location.count }}</td>
+            <td>{{ location.active_items_count }}</td>
             {% if location.customer %}
                 <td>{{ location.customer }}</td>
             {% else %}

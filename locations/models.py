@@ -57,6 +57,10 @@ class Location(models.Model):
 	def __str__(self):
 		return self.name
 
+	def active_items_count(self):
+		return Location.objects.filter(id=self.id, item_location__is_active=True).count()
+
+
 class AddressForm(BaseModelForm):
 	employee = ModelChoiceField(queryset=None, widget=Select(attrs={'class': 'form-control'}), label="", empty_label=_('Choose employee'), required=False)
 
